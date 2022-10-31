@@ -1,6 +1,8 @@
-import type {HydratedDocument, Types} from 'mongoose';
+import {Types} from 'mongoose';
+import type {HydratedDocument} from 'mongoose';
 import type {User} from './model';
 import UserModel from './model';
+import FreetCollection from '../freet/collection';
 
 /**
  * This file contains a class with functionality to interact with users stored
@@ -18,11 +20,18 @@ class UserCollection {
    * @param {string} password - The password of the user
    * @return {Promise<HydratedDocument<User>>} - The newly created user
    */
-  static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
+  static async addOne(username: string, password: string, bio: string): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
+    const following = new Array<Types.ObjectId>();
+    const followedBy = new Array<Types.ObjectId>();
+    const likes = new Array<Types.ObjectId>();
+    const refreets = new Array<Types.ObjectId>();
 
-    const user = new UserModel({username, password, dateJoined});
+    const user = new UserModel({ 
+      username, password, dateJoined, bio, following, followedBy, likes, refreets, filter: 'default'
+    });
     await user.save(); // Saves user to MongoDB
+
     return user;
   }
 
@@ -67,19 +76,70 @@ class UserCollection {
    * @param {Object} userDetails - An object with the user's updated credentials
    * @return {Promise<HydratedDocument<User>>} - The updated user
    */
-  static async updateOne(userId: Types.ObjectId | string, userDetails: {password?: string; username?: string}): Promise<HydratedDocument<User>> {
+  static async updateOne(userId: Types.ObjectId | string, userDetails: any): Promise<HydratedDocument<User>> {
     const user = await UserModel.findOne({_id: userId});
     if (userDetails.password) {
-      user.password = userDetails.password;
+      user.password = userDetails.password as string;
     }
 
     if (userDetails.username) {
-      user.username = userDetails.username;
+      user.username = userDetails.username as string;
+    }
+
+    if (userDetails.bio !== undefined) {
+      user.bio = userDetails.bio as string;
+    }
+
+    if (userDetails.filter) {
+      user.filter = userDetails.filter as string;
+    }
+
+    if (userDetails.following !== undefined) {
+      user.following = userDetails.following as Array<Types.ObjectId>;
+    }
+
+    if (userDetails.followedBy !== undefined) {
+      user.followedBy = userDetails.followedBy as Array<Types.ObjectId>;
+    }
+
+    if (userDetails.likes !== undefined) {
+      user.likes = userDetails.likes as Array<Types.ObjectId>;
+    }
+
+    if (userDetails.refreets !== undefined) {
+      user.refreets = userDetails.refreets as Array<Types.ObjectId>;
     }
 
     await user.save();
     return user;
+    
   }
+
+/**
+   * Delete likes for freets from every user.
+   * Used when the freets in question are deleted.
+   *
+   * @param {Array<Types.ObjectId | string>} freetIds - The ids of freets to delete
+   * @return {Promise<void>}
+   */
+ static async deleteLikesByFreetIds(freetIds: Array<Types.ObjectId | string>): Promise<void> {
+   const freetIdObjects = freetIds.map((id) => new Types.ObjectId(id.toString()));
+   await UserModel.updateMany({ 'likes': { $in: freetIdObjects } }, { $pull: { 'likes': { $in: freetIdObjects } } });
+}
+
+
+/**
+   * Delete following/followed by records for the user with userId.
+   * Used when the user in question is deleted.
+   *
+   * @param {Types.ObjectId | string} userId - The ids of freets to delete
+   * @return {Promise<void>}
+   */
+ static async deleteFollowers(userId: Types.ObjectId | string): Promise<void> {
+   const userIdObject = new Types.ObjectId(userId.toString());
+   await UserModel.updateMany({ 'following': userIdObject }, { $pull: { 'following': userIdObject } });
+   await UserModel.updateMany({ 'followedBy': userIdObject }, { $pull: { 'followedBy': userIdObject } });
+}
 
   /**
    * Delete a user from the collection.

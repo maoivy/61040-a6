@@ -1,4 +1,4 @@
-import type {HydratedDocument} from 'mongoose';
+import type {HydratedDocument, Types} from 'mongoose';
 import moment from 'moment';
 import type {User} from './model';
 
@@ -6,7 +6,12 @@ import type {User} from './model';
 type UserResponse = {
   _id: string;
   username: string;
+  bio: string;
   dateJoined: string;
+  following: Array<string>;
+  followedBy: Array<string>;
+  likes: Array<string>;
+  refreets: Array<string>;
 };
 
 /**
@@ -35,7 +40,12 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
   return {
     ...userCopy,
     _id: userCopy._id.toString(),
-    dateJoined: formatDate(user.dateJoined)
+    bio: user.bio,
+    dateJoined: formatDate(user.dateJoined),
+    following: user.following.map((id) => id.toString()),
+    followedBy: user.followedBy.map((id) => id.toString()),
+    likes: user.likes.map((id) => id.toString()),
+    refreets: user.refreets.map((id) => id.toString()),
   };
 };
 

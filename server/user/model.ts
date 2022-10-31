@@ -12,6 +12,12 @@ export type User = {
   username: string;
   password: string;
   dateJoined: Date;
+  bio: string;
+  filter: string;
+  following: Array<Types.ObjectId>;
+  followedBy: Array<Types.ObjectId>;
+  likes: Array<Types.ObjectId>;
+  refreets: Array<Types.ObjectId>;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -32,7 +38,38 @@ const UserSchema = new Schema({
   dateJoined: {
     type: Date,
     required: true
-  }
+  },
+  // The user's bio
+  bio: {
+    type: String,
+  },
+  // The user's current feed filter
+  filter: {
+    type: String,
+    required: true
+  },
+
+  // The below fields are left unpopulated because so far they've been for tracking purposes
+  // Who the user is following
+  following: {
+    type: [Schema.Types.ObjectId],
+    required: true
+  },
+  // Who the user is followed by
+  followedBy: {
+    type: [Schema.Types.ObjectId],
+    required: true
+  },
+  // Freets the user has liked
+  likes: {
+    type: [Schema.Types.ObjectId],
+    required: true
+  },
+  // Freets the user has refreeted
+  refreets: {
+    type: [Schema.Types.ObjectId],
+    required: true
+  },
 });
 
 const UserModel = model<User>('User', UserSchema);

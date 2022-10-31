@@ -8,7 +8,11 @@ type FreetResponse = {
   author: string;
   dateCreated: string;
   content: string;
-  dateModified: string;
+  likes: number,
+  refreets: number,
+  replies: number,
+  replyTo: string,
+  refreetOf: string,
 };
 
 /**
@@ -32,17 +36,37 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  const {username} = freetCopy.authorId;
+  const { username } = freetCopy.authorId;
   delete freetCopy.authorId;
+  const refreetContent = freetCopy.refreetOf ? freetCopy.refreetOf.content : '';
+  delete freetCopy.refreetOf;
+  const replyContent = freetCopy.replyTo? freetCopy.replyTo.content : '';
+  delete freetCopy.replyTo;
   return {
     ...freetCopy,
     _id: freetCopy._id.toString(),
     author: username,
+    refreetOf: refreetContent,
+    replyTo: replyContent,
     dateCreated: formatDate(freet.dateCreated),
-    dateModified: formatDate(freet.dateModified)
   };
 };
 
+/**
+ * Parse a comma-separated string of categories into an array
+ *
+ * @param {string} categories - comma-separated string of categories
+ * @returns {Array<string} - parsed and cleaned array of categories
+ */
+const parseCategories = (categoriesString: string): Array<string> => {
+  // drop empty and duplicate categories
+  // force categories to be all lowercase to consolidate them
+  const categories = categoriesString.split(',').map((category: string) => category.trim().toLowerCase())
+  return [...new Set<string>(categories.filter((category: string) => category.length > 0))]
+}
+
 export {
-  constructFreetResponse
+  constructFreetResponse,
+  FreetResponse,
+  parseCategories,
 };
