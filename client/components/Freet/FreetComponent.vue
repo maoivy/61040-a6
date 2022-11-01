@@ -52,6 +52,24 @@
       Posted at {{ freet.dateModified }}
       <i v-if="freet.edited">(edited)</i>
     </p>
+    <footer>
+      <div>
+        <button
+          v-if="!$store.state.user.likes.includes(freet._id)"
+          @click="like"
+        >
+          Like
+        </button>
+        <button
+          v-if="$store.state.user.likes.includes(freet._id)"
+          @click="unlike"
+        >
+          Unlike
+        </button>
+        
+        <span> {{ freet.likes }} </span>
+      </div>
+    </footer>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -82,6 +100,51 @@ export default {
     };
   },
   methods: {
+    async like() {
+      /**
+       * Likes the freet.
+       */
+      const options = {
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({'freetId': `${this.freet._id}`}),
+      };
+
+      try {
+        const r = await fetch(`/api/freets/like`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.$store.commit('refreshFreets');
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+    async unlike() {
+      /**
+       * Unlikes the freet.
+       */
+      const options = {
+        method: 'DELETE', 
+        headers: {'Content-Type': 'application/json'},
+      };
+
+      try {
+        const r = await fetch(`/api/freets/like/${this.freet._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.$store.commit('refreshFreets');
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
     startEditing() {
       /**
        * Enables edit mode on this freet.
