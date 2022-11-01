@@ -20,7 +20,7 @@ export default {
     }).then(res => res.json()).then(res => {
       const user = res.user;
       this.$store.commit('setUsername', user ? user.username : null);
-      this.$store.commit('setUser', user ? user : null);
+      this.$store.commit('setLikes', user ? user.likes : null);
     });
 
     // Clear alerts on page refresh

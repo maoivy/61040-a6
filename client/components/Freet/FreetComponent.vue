@@ -55,13 +55,13 @@
     <footer>
       <div>
         <button
-          v-if="!$store.state.user.likes.includes(freet._id)"
+          v-if="$store.state.likes && !$store.state.likes.includes(freet._id)"
           @click="like"
         >
           Like
         </button>
         <button
-          v-if="$store.state.user.likes.includes(freet._id)"
+          v-if="$store.state.likes && $store.state.likes.includes(freet._id)"
           @click="unlike"
         >
           Unlike
@@ -118,6 +118,7 @@ export default {
         }
 
         this.$store.commit('refreshFreets');
+        this.$store.commit('refreshLikes');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -140,6 +141,7 @@ export default {
         }
 
         this.$store.commit('refreshFreets');
+        this.$store.commit('refreshLikes');
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
