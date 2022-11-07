@@ -69,6 +69,9 @@
         
         <span> {{ freet.likes }} </span>
       </div>
+      <button>
+          Collect
+      </button>
     </footer>
     <section class="alerts">
       <article

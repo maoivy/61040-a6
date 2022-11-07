@@ -65,6 +65,10 @@
             </article>
         </div>
         <div v-if="this.view === 'collections'">
+            <NewCollectionForm 
+                v-if="this.profile.username === this.$store.state.username" 
+                @new-collection="this.getCollections" 
+            />
             <div v-if="this.collections.length">
                 <CollectionComponent
                     v-for="collection in this.collections"
@@ -82,11 +86,12 @@
 
 <script>
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
-import CollectionComponent from '@/components/Freet/FreetComponent.vue';
+import NewCollectionForm from '@/components/Collection/NewCollectionForm.vue'
+import CollectionComponent from '@/components/Collection/CollectionComponent.vue';
 
 export default {
   name: 'ProfilePage',
-  components: {FreetComponent, CollectionComponent},
+  components: {FreetComponent, CollectionComponent, NewCollectionForm},
   data() {
     return {
       profile: {},
@@ -174,6 +179,9 @@ export default {
        */
       this.view = view;
     },
+    hi() {
+        console.log('hi');
+    }
   },
 };
 </script>
