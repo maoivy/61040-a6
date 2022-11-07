@@ -14,19 +14,19 @@
         class="actions"
       >
         <button
-          v-if="editing"
+          v-if="this.mode === 'editing'"
           @click="submitEdit"
         >
           ✅ Save changes
         </button>
         <button
-          v-if="editing"
+          v-if="this.mode === 'editing'"
           @click="stopEditing"
         >
           🚫 Discard changes
         </button>
         <button
-          v-if="!editing"
+          v-if="this.mode !== 'editing'"
           @click="startEditing"
         >
           ✏️ Edit
@@ -37,7 +37,7 @@
       </div>
     </header>
     <textarea
-      v-if="editing"
+      v-if="this.mode === 'editing'"
       class="content"
       :value="draft"
       @input="draft = $event.target.value"
@@ -85,6 +85,22 @@
         <span> {{ freet.likes }} </span>
       </div>
       <div>
+        <button
+          v-if="$store.state.likes && !$store.state.refreets.includes(freet._id)"
+          @click="startRefreeting"
+        >
+          Refreet
+        </button>
+        <span
+          v-else
+          
+        >
+          Refreeted
+        </span>
+        
+        <span> {{ freet.refreets }} </span>
+      </div>
+      <div>
         <button @click="startReplying">
           Reply
         </button>
@@ -103,14 +119,20 @@
         <p>{{ alert }}</p>
       </article>
     </section>
+    <RefreetFreetForm 
+      v-if="this.mode === 'refreeting'" 
+      :refreetOf="freet._id" 
+      @refreet-success="this.stopRefreeting" 
+      @cancel-refreet="this.stopRefreeting"
+    />
     <ReplyFreetForm 
-      v-if="replying" 
+      v-if="this.mode === 'replying'" 
       :replyTo="freet._id" 
       @reply-success="this.stopReplying" 
       @cancel-reply="this.stopReplying"
     />
     <Collect 
-      v-if="collecting" 
+      v-if="this.mode === 'collecting'" 
       :freetId="freet._id" 
       @close-collect="this.stopCollecting" 
     />
@@ -122,11 +144,12 @@
 
 <script>
 import Collect from '@/components/Collection/Collect.vue';
+import RefreetFreetForm from '@/components/Freet/RefreetFreetForm.vue'
 import ReplyFreetForm from '@/components/Freet/ReplyFreetForm.vue'
 
 export default {
   name: 'FreetComponent',
-  components: {Collect, ReplyFreetForm},
+  components: {Collect, RefreetFreetForm, ReplyFreetForm},
   props: {
     // Data from the stored freet
     freet: {
@@ -141,9 +164,7 @@ export default {
   },
   data() {
     return {
-      editing: false, // Whether or not this freet is in edit mode
-      replying: false, // Whether the user is currently replying to this freet
-      collecting: false, // Whether or not the freet's collections are currently being managed
+      mode: 'none', // Can be none, refreeting, replying, collecting, editing categories
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {}, // Displays success/error messages encountered during freet modification
     };
@@ -225,44 +246,48 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
+    startRefreeting() {
+      this.mode = 'refreeting';
+    },
+    stopRefreeting() {
+      this.mode = 'none';
+    },
     startReplying() {
       /**
        * Enables reply mode on this freet.
        */
-      this.replying = true;
-      this.collecting = false;
+      this.mode = 'replying';
     },
     stopReplying() {
       /**
        * Disables reply mode on this freet.
        */
-      this.replying = false; 
+      this.mode = 'none';
     },
     startCollecting() {
       /**
        * Enables collect mode on this freet.
        */
-      this.replying = false; 
-      this.collecting = true;
+      this.mode = 'collecting';
     },
     stopCollecting() {
       /**
        * Disables collect mode on this freet.
        */
-      this.collecting = false; 
+      this.mode = 'none'
     },
     startEditing() {
       /**
        * Enables edit mode on this freet.
        */
-      this.editing = true; // Keeps track of if a freet is being edited
+      this.mode = 'editing'; // Keeps track of if a freet is being edited
       this.draft = this.freet.content; // The content of our current "draft" while being edited
     },
     stopEditing() {
       /**
        * Disables edit mode on this freet.
        */
-      this.editing = false;
+      this.mode = 'none';
       this.draft = this.freet.content;
     },
     deleteFreet() {
@@ -326,7 +351,7 @@ export default {
           throw new Error(res.error);
         }
 
-        this.editing = false;
+        this.mode = 'none'
         this.$store.commit('refreshFreets');
 
         params.callback();

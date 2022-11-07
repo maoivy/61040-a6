@@ -24,6 +24,7 @@ export default {
       this.$store.commit('setFollowing', user ? user.following : null);
 
       if (user) {
+        this.$store.commit('refreshFreets');
         this.$store.commit('refreshCollections');
       }
     })
