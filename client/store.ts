@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
+    following: [],
     likes: [],
     collections: [],
     replies: [], // Replies of Freet most recently viewed 
@@ -40,6 +41,13 @@ const store = new Vuex.Store({
        * @param user - new user to set
        */
       state.likes = likes;
+    },
+    setFollowing(state, following) {
+      /**
+       * Update the stored user's following to the specified one.
+       * @param following - new following to set
+       */
+      state.following = following;
     },
     updateFilter(state, filter) {
       /**
@@ -77,6 +85,14 @@ const store = new Vuex.Store({
       const url = '/api/users/session';
       const res = await fetch(url).then(async r => r.json());
       state.likes = res.user.likes;
+    },
+    async refreshFollowing(state) {
+      /**
+       * Request the server for the current user's following.
+       */
+      const url = '/api/users/session';
+      const res = await fetch(url).then(async r => r.json());
+      state.following = res.user.following;
     },
     async refreshCollections(state) {
       /**

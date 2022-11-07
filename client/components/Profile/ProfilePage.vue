@@ -3,10 +3,28 @@
 
 <template>
   <main>
-    <section>
+    <section v-if='this.notFound'>
+        <h2>The user @{{ $route.params.username }} could not be found.</h2>
+    </section>
+    <section v-else>
       <header>
         <h2>@{{ $route.params.username }}</h2>
       </header>
+      <button 
+        v-if="!this.canEdit && this.$store.state.following && !this.$store.state.following.includes(this.profile._id)"
+        @click="follow"
+      >
+         Follow
+      </button>
+      <button 
+        v-if="!this.canEdit && this.$store.state.following && this.$store.state.following.includes(this.profile._id)"
+        @click="unfollow"
+      >
+        Unfollow
+      </button>
+      <button v-if="this.canEdit">
+          Edit profile
+      </button>
       <div>
           <p>{{ this.profile.bio }}</p>
           <p>Joined {{ this.profile.dateJoined }} </p>
@@ -96,7 +114,10 @@ export default {
   components: {FreetComponent, CollectionComponent, NewCollectionForm},
   data() {
     return {
+      notFound: false,
       profile: {},
+      userId: '',
+      canEdit: false,
       view: 'allFreets',
       allFreets: [],
       originalFreets: [],
@@ -126,9 +147,12 @@ export default {
           throw new Error(res.error);
         }
         this.profile = res.user;
+        this.userId = res._id;
+        if (this.profile.username === this.$store.state.username) {
+            this.canEdit = true;
+        }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+            this.notFound = true;
       }
     },
     async getFreets() {
@@ -181,9 +205,51 @@ export default {
        */
       this.view = view;
     },
-    hi() {
-        console.log('hi');
-    }
+    async follow() {
+      /**
+       * Follows the user.
+       */
+      const options = {
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({'username': `${this.$route.params.username}`}),
+      };
+
+      try {
+        const r = await fetch(`/api/users/follow`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.$store.commit('refreshFreets');
+        this.$store.commit('refreshFollowing');
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async unfollow() {
+      /**
+       * Unfollows the user.
+       */
+      const options = {
+        method: 'DELETE', 
+        headers: {'Content-Type': 'application/json'},
+      };
+
+      try {
+        const r = await fetch(`/api/users/follow/${this.$route.params.username}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.$store.commit('refreshFreets');
+        this.$store.commit('refreshFollowing');
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
 };
 </script>

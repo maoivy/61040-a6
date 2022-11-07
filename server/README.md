@@ -194,7 +194,20 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `400` if `userId` is not given
+- `403` if the user is not logged in
 - `404` if `userId` is not a recognized ID of any user
+
+#### `GET /api/freets?freetId=freetId` - Get freet by ID
+
+**Returns**
+
+- The freet with ID `freetId`
+
+**Throws**
+
+- `400` if `freetId` is not given
+- `403` if the user is not logged in
+- `404` if `freetId` is not a recognized ID of any freet
 
 #### `POST /api/freets` - Create a new freet
 
@@ -228,7 +241,7 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in or not the author of the freet
 - `404` if the freet with freetId is not found
 
-#### `PUT /api/freets/:freetId?` - Update an existing freet
+#### `PATCH /api/freets/:freetId?` - Update an existing freet
 
 **Body**
 
@@ -294,7 +307,7 @@ This renders the `index.html` file that will be used to interact with the backen
 - `409` if username is already in use
 - `413` if the bio is more than 140 characters long
 
-#### `PUT /api/users` - Update a user's profile
+#### `PATCH /api/users` - Update a user's profile
 
 **Body** _(no need to add fields that are not being changed)_
 
@@ -369,7 +382,7 @@ Added routes below:
 #### `POST /api/users/follow` - Follow a user
 
 **Body**
-- `userId` _{string}_ - The user to be followed
+- `username` _{string}_ - The user to be followed
 
 **Returns**
 
@@ -467,7 +480,7 @@ Added routes below:
 - `403` if the user is not logged in or if the user already has a collection with that name
 - `413` if collection name is longer than 24 characters
 
-#### `PUT /api/collection/:collectionId?` - Update a collection
+#### PATCH /api/collection/:collectionId?` - Update a collection
 
 **Body** _(no need to add fields that are not being changed)_
 
