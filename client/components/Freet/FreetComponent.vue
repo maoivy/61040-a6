@@ -69,7 +69,7 @@
         
         <span> {{ freet.likes }} </span>
       </div>
-      <button>
+      <button @click="startCollecting">
           Collect
       </button>
     </footer>
@@ -82,12 +82,15 @@
         <p>{{ alert }}</p>
       </article>
     </section>
+    <Collect v-if="collecting" :freetId="freet._id" @close-collect="this.stopCollecting" />
   </article>
 </template>
 
 <script>
+import Collect from '@/components/Collection/Collect.vue';
 export default {
   name: 'FreetComponent',
+  components: {Collect},
   props: {
     // Data from the stored freet
     freet: {
@@ -98,6 +101,7 @@ export default {
   data() {
     return {
       editing: false, // Whether or not this freet is in edit mode
+      collecting: false, // Whether or not the freet's collections are currently being managed
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {}, // Displays success/error messages encountered during freet modification
     };
@@ -149,6 +153,18 @@ export default {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
+    },
+    startCollecting() {
+      /**
+       * Enables collect mode on this freet.
+       */
+      this.collecting = true;
+    },
+    stopCollecting() {
+      /**
+       * Disables collect mode on this freet.
+       */
+      this.collecting = false; 
     },
     startEditing() {
       /**

@@ -132,6 +132,12 @@ const isValidCollectionModifier = async (req: Request, res: Response, next: Next
  const isCollectionNameUnique = async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.body as { name: string };
 
+  // ignore undefined; other validators will check for undefinedness depending on scenario
+  if (!name) {
+    next();
+    return;
+  }
+
   const collections = await CollectionCollection.findAllByUserId(req.session.userId);
   for (const collection of collections) {
     if (collection.name.trim().toLowerCase() === name.trim().toLowerCase()) {

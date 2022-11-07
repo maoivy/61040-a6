@@ -166,7 +166,7 @@ router.delete(
 /**
  * Modify a freet's categories (no other field can be changed by the user)
  *
- * @name PUT /api/freets/:id
+ * @name PATCH /api/freets/:id
  *
  * @param {string} categories - the new categories for the freet
  * @return {FreetResponse} - the updated freet
@@ -175,7 +175,7 @@ router.delete(
  * @throws {413} - If the freet categories are improperly formatted/too long
  * @throws {400} - If categories are specified and the freet is a reply or refreet
  */
-router.put(
+router.patch(
   '/:freetId?',
   [
     userValidator.isUserLoggedIn,

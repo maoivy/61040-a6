@@ -50,7 +50,10 @@ class CollectionCollection {
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Collection>>> {
     const user = await UserCollection.findOneByUsername(username);
-    return CollectionModel.find({ userId: user._id }).populate(['userId', 'freets']);
+    return CollectionModel.find({ userId: user._id }).populate(['userId', 'freets']).populate({
+      path: 'freets',
+      populate: { path: 'authorId' }
+    });
   }
 
   /**

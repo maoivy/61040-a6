@@ -74,6 +74,8 @@
                     v-for="collection in this.collections"
                     :key="collection.id"
                     :collection="collection"
+                    @collection-deleted="getCollections"
+                    @collection-edited="getCollections"
                 />
             </div>
             <article v-else>

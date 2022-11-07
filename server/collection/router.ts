@@ -1,13 +1,9 @@
 import type {NextFunction, Request, Response} from 'express';
 import {Types} from 'mongoose';
 import express from 'express';
-import FreetCollection from './collection';
 import * as userValidator from '../user/middleware';
-import * as freetValidator from '../freet/middleware';
 import * as collectionValidator from './middleware';
 import * as util from './util';
-import type {Collection} from './model';
-import UserCollection from '../user/collection';
 import CollectionCollection from './collection';
 
 const router = express.Router();
@@ -114,12 +110,12 @@ router.delete(
 /**
  * Modify a collection's name or freets 
  * 
- * @name PUT /api/collection/:id
+ * @name PATCH /api/collection/:id
  *
  * @param {string} name - the new name for the collection
  * @param {string} freetId - the id of a freet to add or remove
  * @param {string} addOrRemove - whether to add or remove the freet specified
- * @return {FreetResponse} - the updated collection
+ * @return {CollectionResponse} - the updated collection
  * @throws {400} - if the new collection name is blank or a stream of empty spaces, or if both freet and add/remove are
  *                 specified and either the freet is already in or not already in the collection, respectively
  * @throws {403} - if the user is not logged in or not the author of the collection
@@ -128,7 +124,7 @@ router.delete(
  * @throws {413} - if the new collection name exceeds 24 characters
 
  */
-router.put(
+router.patch(
   '/:collectionId?',
   [
     userValidator.isUserLoggedIn,
@@ -140,8 +136,9 @@ router.put(
     collectionValidator.canAddOrRemoveFreet,
   ],
   async (req: Request, res: Response) => {
-    const { collectionId } = req.params;
+    const collectionId = req.params.collectionId as string;
     const { freetId, name, addOrRemove } = req.body;
+    const newName = name ? name.trim() : undefined;
 
     const collection = await CollectionCollection.findOne(collectionId);
     let newFreets = collection.freets.map((freet) => freet._id);
@@ -154,7 +151,7 @@ router.put(
         newFreets = newFreets.filter((id) => id.toString() !== freetId);
       }
     }
-    const updatedCollection = await CollectionCollection.updateOne(req.params.collectionId, { name: name.trim(), freets: newFreets });
+    const updatedCollection = await CollectionCollection.updateOne(collectionId, { name: newName, freets: newFreets });
     res.status(200).json({
       message: 'Your collection was updated successfully.',
       collection: util.constructCollectionResponse(updatedCollection),

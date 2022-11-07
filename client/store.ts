@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
     likes: [],
+    collections: [],
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
@@ -68,6 +69,14 @@ const store = new Vuex.Store({
       const url = '/api/users/session';
       const res = await fetch(url).then(async r => r.json());
       state.likes = res.user.likes;
+    },
+    async refreshCollections(state) {
+      /**
+       * Request the server for the current user's collections.
+       */
+      const url = `/api/collection?username=${state.username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.collections = res;
     },
   },
   // Store data across page refreshes, only discard on browser close
