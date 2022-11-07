@@ -24,6 +24,7 @@ const constructCollectionResponse = (collection: HydratedDocument<Collection>): 
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
+  console.log(collectionCopy);
   const { username } = collectionCopy.userId;
   delete collectionCopy.userId;
   return {

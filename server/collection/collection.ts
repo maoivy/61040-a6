@@ -53,6 +53,12 @@ class CollectionCollection {
     return CollectionModel.find({ userId: user._id }).populate(['userId', 'freets']).populate({
       path: 'freets',
       populate: { path: 'authorId' }
+    }).populate({
+      path: 'freets',
+      populate: { path: 'replyTo' }
+    }).populate({
+      path: 'freets',
+      populate: { path: 'refreetOf' }
     });
   }
 
