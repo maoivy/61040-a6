@@ -5,16 +5,26 @@
     class="collection"
   >
     <header>
-      <h3 class="name">
-        @{{ collection.name }}
+      <h3 v-if="!this.editing" class="name">
+        {{ collection.name }}
       </h3>
+      <input
+        v-if="this.editing"
+        type="text"
+        class="name"
+        :value="newName"
+        @input="newName = $event.target.value"
+      />
       {{ collection.freets }}
       <div
         v-if="$store.state.username === collection.user"
         class="actions"
       >
-        <button @click="startEditing">
+        <button v-if="!this.editing" @click="startEditing">
           Edit
+        </button>
+        <button v-if="this.editing" @click="stopEditing">
+          Save changes
         </button>
         <button @click="deleteCollection">
           🗑️ Delete
@@ -39,6 +49,8 @@ export default {
   },
   data() {
     return {
+      newName: this.collection.name,
+      editing: false,
     };
   },
   methods: {
@@ -64,14 +76,20 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-    async startEditing() {
+    startEditing() {
       /**
-       * Deletes the collection.
+       * Enables edit mode for the collection.
+       */
+      this.editing = true;
+    },
+    async stopEditing() {
+      /**
+       * Saves the changes made to the collection.
        */
       const options = {
         method: 'PATCH', 
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ 'name': 'meow' }),
+        body: JSON.stringify({ 'name': this.newName }),
       };
 
       try {
@@ -86,6 +104,7 @@ export default {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
+      this.editing = false;
     },
   }
 };
