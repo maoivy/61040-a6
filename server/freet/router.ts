@@ -32,7 +32,7 @@ const router = express.Router();
 /**
  * Get freets by author.
  *
- * @name GET /api/freets?userId=id
+ * @name GET /api/freets?username=username
  *
  * @return {FreetResponse[]} - An array of freets created by user with id userId
  * @throws {400} - If userId is not given
@@ -46,7 +46,7 @@ router.get(
   ],
   async (req: Request, res: Response, next: NextFunction) => {
     // Check if userId query parameter was supplied
-    if (req.query.userId !== undefined) {
+    if (req.query.username !== undefined) {
       next();
       return;
     }
@@ -60,7 +60,7 @@ router.get(
     userValidator.isAuthorExists
   ],
   async (req: Request, res: Response) => {
-    const authorFreets = await FreetCollection.findAllByUserId(req.query.userId as string);
+    const authorFreets = await FreetCollection.findAllByUsername(req.query.username as string);
     const response = authorFreets.map(util.constructFreetResponse);
     res.status(200).json(response);
   }

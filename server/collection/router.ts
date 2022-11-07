@@ -12,24 +12,47 @@ import CollectionCollection from './collection';
 
 const router = express.Router();
 
+// /**
+//  * Get collections by userId
+//  *
+//  * @name GET /api/collection?userId=userId
+//  *
+//  * @return {CollectionResponse[]} - A list of all the collections sorted in descending
+//  *                      order by date created
+//  * @throws {403} - If current user is not logged in
+//  * @throws {404} - If user with userId does not exist
+//  */
+// router.get(
+//   '/',
+//   [
+//     userValidator.isUserLoggedIn,
+//     userValidator.isUserExists,
+//   ],
+//   async (req: Request, res: Response) => {
+//     const collections = await CollectionCollection.findAllByUserId(req.query.userId as string);
+//     const response = collections.map(util.constructCollectionResponse);
+//     res.status(200).json(response);
+//   },
+// );
+
 /**
- * Get collections by userId
+ * Get collections by username
  *
- * @name GET /api/collection?userId=userId
+ * @name GET /api/collection?username=username
  *
  * @return {CollectionResponse[]} - A list of all the collections sorted in descending
  *                      order by date created
  * @throws {403} - If current user is not logged in
- * @throws {404} - If user with userId does not exist
+ * @throws {404} - If user with username does not exist
  */
-router.get(
+ router.get(
   '/',
   [
     userValidator.isUserLoggedIn,
-    userValidator.isUserExists,
+    userValidator.isUserWithUsernameExists,
   ],
   async (req: Request, res: Response) => {
-    const collections = await CollectionCollection.findAllByUserId(req.query.userId as string);
+    const collections = await CollectionCollection.findAllByUsername(req.query.username as string);
     const response = collections.map(util.constructCollectionResponse);
     res.status(200).json(response);
   },

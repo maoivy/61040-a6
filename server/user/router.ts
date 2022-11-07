@@ -31,6 +31,31 @@ const router = express.Router();
   }
 );
 
+/**
+ * Get a user by username
+ *
+ * @name GET /api/users?username=username
+ *
+ * @return - currently logged in user, or null if not logged in
+ * @throws {400} - If username is blank
+ * @throws {403} - If user is not logged in
+ * @throws {404} - If there is no user with the provided username
+ */
+ router.get(
+  '/:username?',
+  [
+    userValidator.isUserLoggedIn,
+    userValidator.isUserWithUsernameExists,
+  ],
+  async (req: Request, res: Response) => {
+    const user = await UserCollection.findOneByUsername(req.query.username as string);
+    res.status(200).json({
+      message: 'The user was found successfully.',
+      user: user ? util.constructUserResponse(user) : null
+    });
+  }
+);
+
 
 /**
  * Sign in user.

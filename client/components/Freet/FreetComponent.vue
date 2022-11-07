@@ -96,7 +96,7 @@ export default {
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
-      alerts: {} // Displays success/error messages encountered during freet modification
+      alerts: {}, // Displays success/error messages encountered during freet modification
     };
   },
   methods: {
