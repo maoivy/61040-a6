@@ -23,21 +23,10 @@
     </section>
     <section>
       <header>
-        <div class="left">
-          <h2>
-            Viewing all freets
-            <span v-if="$store.state.filter">
-              by @{{ $store.state.filter }}
-            </span>
-          </h2>
-        </div>
-        <div class="right">
-          <GetFreetsForm
-            ref="getFreetsForm"
-            value="author"
-            placeholder="🔍 Filter by author (optional)"
-            button="🔄 Get freets"
-          />
+        <div>
+          <button @click="setFilter('default')">All freets</button>
+          <button @click="setFilter('original')">Freets</button>
+          <button @click="setFilter('refreets')">Refreets</button>
         </div>
       </header>
       <section
@@ -61,14 +50,33 @@
 <script>
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
 import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
-import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
 
 export default {
   name: 'FreetPage',
-  components: {FreetComponent, GetFreetsForm, CreateFreetForm},
-  mounted() {
-    this.$refs.getFreetsForm.submit();
-  }
+  components: {FreetComponent, CreateFreetForm},
+  methods: {
+    async setFilter(filter) {
+      /**
+       * Gets the replies for this Freet.
+       */
+      const options = {
+        method: 'PATCH', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ 'filter': filter }),
+      };
+
+      try {
+        const r = await fetch(`/api/users/`, options);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+        this.$store.commit('refreshFreets');
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
 };
 </script>
 

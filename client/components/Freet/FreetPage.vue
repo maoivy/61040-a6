@@ -41,9 +41,6 @@ export default {
     this.getReplies();
   },
   methods: {
-    hi () {
-      console.log('hi');
-    },
     async getFreet() {
       /**
        * Gets the replies for this Freet.

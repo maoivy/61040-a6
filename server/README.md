@@ -313,7 +313,8 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `username` _{string}_ - The user's username
 - `password` _{string}_ - The user's password
-- `bio` _{string}_ (optional) - The user's bio
+- `bio` _{string}_ - The user's bio
+- `filter` _{string}_ - The user's new feed filter
 
 **Returns**
 

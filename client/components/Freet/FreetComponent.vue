@@ -52,8 +52,7 @@
       v-bind:to="'/freets/' + freet._id"
     >
       <p class="info">
-        Posted at {{ freet.dateModified }}
-        <i v-if="freet.edited">(edited)</i>
+        Posted on {{ this.freet.dateCreated }}
       </p>
     </router-link>  
     <footer>
