@@ -1,7 +1,7 @@
 <!-- Page for displaying a single Freet, its details, and replies -->
 
 <template>
-  <main>
+  <main v-on="$listeners">
     <section>
       <header>
         <h2>
@@ -12,10 +12,10 @@
         <FreetComponent :freet="this.freet" />
       </section>
       <section
-        v-if="this.replies.length"
+        v-if="this.$store.state.replies.length"
       >
         <FreetComponent
-          v-for="reply in this.replies"
+          v-for="reply in this.$store.state.replies"
           :key="reply._id"
           :freet="reply"
         />
@@ -34,7 +34,6 @@ export default {
   data() {
     return {
       freet: {},
-      replies: [],
     }
   },
   created() {
@@ -42,6 +41,9 @@ export default {
     this.getReplies();
   },
   methods: {
+    hi () {
+      console.log('hi');
+    },
     async getFreet() {
       /**
        * Gets the replies for this Freet.
@@ -64,7 +66,7 @@ export default {
     },
     async getReplies() {
       /**
-       * Gets the replies for this Freet.
+       * Gets the replies for this Freet. Used on first load to update stale information in store.
        */
       const options = {
         method: 'GET', 
@@ -77,7 +79,7 @@ export default {
         if (!r.ok) {
           throw new Error(res.error);
         }
-        this.replies = res;
+        this.$store.commit('updateReplies', res);
       } catch (e) {
         alert(e);
       }

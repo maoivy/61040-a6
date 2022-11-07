@@ -114,6 +114,7 @@ router.post(
     freetValidator.canReplyFreet,
   ],
   async (req: Request, res: Response) => {
+    console.log(req.body);
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const categories = util.parseCategories(req.body.categories);
     const { content, readmore } = req.body;

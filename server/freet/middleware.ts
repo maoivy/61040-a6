@@ -293,6 +293,12 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
  * i.e., comma-separated list of strings, none exceeding 24 characters
  */
  const isValidCategories = async (req: Request, res: Response, next: NextFunction) => {
+   // skip if reply or refreet, can't have categories anyway
+   if (req.body.replyTo || req.body.refreetOf) {
+     next();
+     return;
+   }
+
    if (typeof req.body.categories !== 'string') {
     res.status(413).json({
       error: 'Category formatting is invalid.'

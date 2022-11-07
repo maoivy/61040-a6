@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     username: null, // Username of the logged in user
     likes: [],
     collections: [],
+    replies: [], // Replies of Freet most recently viewed 
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
@@ -53,6 +54,13 @@ const store = new Vuex.Store({
        * @param freets - Freets to store
        */
       state.freets = freets;
+    },
+    updateReplies(state, replies) {
+      /**
+       * Update the stored replies to the provided replies.
+       * @param replies - Replies to store
+       */
+      state.replies = replies;
     },
     async refreshFreets(state) {
       /**

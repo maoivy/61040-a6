@@ -61,6 +61,10 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
 const parseCategories = (categoriesString: string): Array<string> => {
   // drop empty and duplicate categories
   // force categories to be all lowercase to consolidate them
+  if (!categoriesString) {
+    return new Array<string>();
+  }
+  
   const categories = categoriesString.split(',').map((category: string) => category.trim().toLowerCase())
   return [...new Set<string>(categories.filter((category: string) => category.length > 0))]
 }

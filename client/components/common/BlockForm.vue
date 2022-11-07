@@ -35,6 +35,12 @@
     >
       {{ title }}
     </button>
+    <button
+      v-if="cancel"
+      @click="this.cancelCallback"
+    >
+      Cancel
+    </button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -59,10 +65,13 @@ export default {
       url: '', // Url to submit form to
       method: 'GET', // Form request method
       hasBody: false, // Whether or not form request has a body
+      addToBody: {}, // Constants to add to the form's body
       setUsername: false, // Whether or not stored username should be updated after form submission
       refreshFreets: false, // Whether or not stored freets should be updated after form submission
       alerts: {}, // Displays success/error messages encountered during form submission
-      callback: null // Function to run after successful form submission
+      callback: null, // Function to run after successful form submission
+      cancel: false,
+      cancelCallback: null, // Function to run after cancelling form
     };
   },
   methods: {
@@ -76,13 +85,18 @@ export default {
         credentials: 'same-origin' // Sends express-session credentials with request
       };
       if (this.hasBody) {
-        options.body = JSON.stringify(Object.fromEntries(
+         const formBody = Object.fromEntries(
           this.fields.map(field => {
             const {id, value} = field;
             field.value = '';
             return [id, value];
           })
-        ));
+        );
+        let body = formBody;
+        if (this.addToBody) {
+          body = {...formBody, ...this.addToBody};
+        }
+        options.body = JSON.stringify(body);
       }
 
       try {

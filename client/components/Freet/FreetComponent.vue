@@ -2,99 +2,120 @@
 <!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
 
 <template>
-  <router-link
-    v-bind:to="'/freets/' + freet._id"
+  <article
+    class="freet"
   >
-    <article
-      class="freet"
-    >
-      <header>
-        <h3 class="author">
-          @{{ freet.author }}
-        </h3>
-        <div
-          v-if="$store.state.username === freet.author"
-          class="actions"
-        >
-          <button
-            v-if="editing"
-            @click="submitEdit"
-          >
-            ✅ Save changes
-          </button>
-          <button
-            v-if="editing"
-            @click="stopEditing"
-          >
-            🚫 Discard changes
-          </button>
-          <button
-            v-if="!editing"
-            @click="startEditing"
-          >
-            ✏️ Edit
-          </button>
-          <button @click="deleteFreet">
-            🗑️ Delete
-          </button>
-        </div>
-      </header>
-      <textarea
-        v-if="editing"
-        class="content"
-        :value="draft"
-        @input="draft = $event.target.value"
-      />
-      <p
-        v-else
-        class="content"
+    <header>
+      <h3 class="author">
+        @{{ freet.author }}
+      </h3>
+      <div
+        v-if="$store.state.username === freet.author"
+        class="actions"
       >
-        {{ freet.content }}
-      </p>
+        <button
+          v-if="editing"
+          @click="submitEdit"
+        >
+          ✅ Save changes
+        </button>
+        <button
+          v-if="editing"
+          @click="stopEditing"
+        >
+          🚫 Discard changes
+        </button>
+        <button
+          v-if="!editing"
+          @click="startEditing"
+        >
+          ✏️ Edit
+        </button>
+        <button @click="deleteFreet">
+          🗑️ Delete
+        </button>
+      </div>
+    </header>
+    <textarea
+      v-if="editing"
+      class="content"
+      :value="draft"
+      @input="draft = $event.target.value"
+    />
+    <p
+      v-else
+      class="content"
+    >
+      {{ freet.content }}
+    </p>
+    <router-link
+      v-bind:to="'/freets/' + freet._id"
+    >
       <p class="info">
         Posted at {{ freet.dateModified }}
         <i v-if="freet.edited">(edited)</i>
       </p>
-      <footer>
-        <div>
-          <button
-            v-if="$store.state.likes && !$store.state.likes.includes(freet._id)"
-            @click="like"
-          >
-            Like
-          </button>
-          <button
-            v-if="$store.state.likes && $store.state.likes.includes(freet._id)"
-            @click="unlike"
-          >
-            Unlike
-          </button>
-          
-          <span> {{ freet.likes }} </span>
-        </div>
-        <button @click="startCollecting">
-            Collect
-        </button>
-      </footer>
-      <section class="alerts">
-        <article
-          v-for="(status, alert, index) in alerts"
-          :key="index"
-          :class="status"
+    </router-link>  
+    <footer>
+      <div>
+        <button
+          v-if="$store.state.likes && !$store.state.likes.includes(freet._id)"
+          @click="like"
         >
-          <p>{{ alert }}</p>
-        </article>
-      </section>
-      <Collect v-if="collecting" :freetId="freet._id" @close-collect="this.stopCollecting" />
-    </article>
-  </router-link>
+          Like
+        </button>
+        <button
+          v-if="$store.state.likes && $store.state.likes.includes(freet._id)"
+          @click="unlike"
+        >
+          Unlike
+        </button>
+        
+        <span> {{ freet.likes }} </span>
+      </div>
+      <div>
+        <button @click="startReplying">
+          Reply
+        </button>
+        <span> {{ freet.replies }} </span>
+      </div>
+      <button @click="startCollecting">
+          Collect
+      </button>
+    </footer>
+    <section class="alerts">
+      <article
+        v-for="(status, alert, index) in alerts"
+        :key="index"
+        :class="status"
+      >
+        <p>{{ alert }}</p>
+      </article>
+    </section>
+    <ReplyFreetForm 
+      v-if="replying" 
+      :replyTo="freet._id" 
+      @reply-success="this.stopReplying" 
+      @cancel-reply="this.stopReplying"
+    />
+    <Collect 
+      v-if="collecting" 
+      :freetId="freet._id" 
+      @close-collect="this.stopCollecting" 
+    />
+    <div>
+      <span> {{ freet.categories }} </span>
+    </div>
+  </article>
 </template>
 
 <script>
 import Collect from '@/components/Collection/Collect.vue';
+import ReplyFreetForm from '@/components/Freet/ReplyFreetForm.vue'
+
 export default {
   name: 'FreetComponent',
-  components: {Collect},
+  components: {Collect, ReplyFreetForm},
   props: {
     // Data from the stored freet
     freet: {
@@ -105,6 +126,7 @@ export default {
   data() {
     return {
       editing: false, // Whether or not this freet is in edit mode
+      replying: false, // Whether the user is currently replying to this freet
       collecting: false, // Whether or not the freet's collections are currently being managed
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {}, // Displays success/error messages encountered during freet modification
@@ -158,10 +180,24 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
+    startReplying() {
+      /**
+       * Enables reply mode on this freet.
+       */
+      this.replying = true;
+      this.collecting = false;
+    },
+    stopReplying() {
+      /**
+       * Disables reply mode on this freet.
+       */
+      this.replying = false; 
+    },
     startCollecting() {
       /**
        * Enables collect mode on this freet.
        */
+      this.replying = false; 
       this.collecting = true;
     },
     stopCollecting() {
@@ -190,10 +226,23 @@ export default {
        */
       const params = {
         method: 'DELETE',
-        callback: () => {
+        callback: async () => {
           this.$store.commit('alert', {
             message: 'Successfully deleted freet!', status: 'success'
           });
+          // update replies in store if a reply was deleted on a freet page
+          if (this.$route.params.freetId) {
+            const options = {
+              method: 'GET', 
+              headers: {'Content-Type': 'application/json'},
+            };
+            const r = await fetch(`/api/freets/reply?freetId=${this.$route.params.freetId}`, options);
+            const res = await r.json();
+            if (!r.ok) {
+              throw new Error(res.error);
+            }
+            this.$store.commit('updateReplies', res);
+          }
         }
       };
       this.request(params);
@@ -259,5 +308,10 @@ export default {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+}
+
+footer {
+  display: flex;
+  gap: 2em;
 }
 </style>
