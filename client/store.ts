@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     following: [],
     likes: [],
     collections: [],
+    freet: {}, // Freet most recently viewed
     replies: [], // Replies of Freet most recently viewed 
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -49,19 +50,19 @@ const store = new Vuex.Store({
        */
       state.following = following;
     },
-    updateFilter(state, filter) {
-      /**
-       * Update the stored freets filter to the specified one.
-       * @param filter - Username of the user to filter freets by
-       */
-      state.filter = filter;
-    },
     updateFreets(state, freets) {
       /**
        * Update the stored freets to the provided freets.
        * @param freets - Freets to store
        */
       state.freets = freets;
+    },
+    updateFreet(state, freet) {
+      /**
+       * Update the stored freet to the provided freet.
+       * @param freet - Freet to store
+       */
+      state.freet = freet;
     },
     updateReplies(state, replies) {
       /**
@@ -70,11 +71,27 @@ const store = new Vuex.Store({
        */
       state.replies = replies;
     },
+    async refreshFreet(state, freetId) {
+      /**
+       * Request the server for the currently viewed freet.
+       */
+       const url = `/api/freets?freetId=${freetId}`;
+       const res = await fetch(url).then(async r => r.json());
+       state.freet = res;
+    },
+    async refreshReplies(state, freetId) {
+      /**
+       * Request the server for the replies of the currently viewed freet.
+       */
+      const url = `/api/freets/reply?freetId=${freetId}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.replies = res;
+    },
     async refreshFreets(state) {
       /**
        * Request the server for the currently available freets.
        */
-      const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      const url = '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
     },

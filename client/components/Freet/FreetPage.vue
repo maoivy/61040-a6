@@ -9,7 +9,7 @@
         </h2>
       </header>
       <section>
-        <FreetComponent :freet="this.freet" />
+        <FreetComponent :freet="this.$store.state.freet" :freetPage="true" />
       </section>
       <section
         v-if="this.$store.state.replies.length"
@@ -18,6 +18,7 @@
           v-for="reply in this.$store.state.replies"
           :key="reply._id"
           :freet="reply"
+          :freetPage="false"
         />
       </section>
     </section>
@@ -43,7 +44,7 @@ export default {
   methods: {
     async getFreet() {
       /**
-       * Gets the replies for this Freet.
+       * Gets the Freet. Used on first load to update stale information in store.
        */
       const options = {
         method: 'GET', 
@@ -55,8 +56,8 @@ export default {
         const res = await r.json();
         if (!r.ok) {
           throw new Error(res.error);
-        }
-        this.freet = res;
+        } 
+        this.$store.commit('updateFreet', res);
       } catch (e) {
         alert(e);
       }

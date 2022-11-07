@@ -39,19 +39,13 @@
             <button @click="setView('refreets')">Refreets</button>
             <button @click="setView('collections')">Collections</button>
         </header>
-        <div v-if="this.view === 'allFreets' && this.allFreets.length">
-            <FreetComponent
-                v-for="freet in this.allFreets"
-                :key="freet.id"
-                :freet="freet"
-            />
-        </div>
         <div v-if="this.view === 'allFreets'">
             <div v-if="this.allFreets.length">
                 <FreetComponent
                     v-for="freet in this.allFreets"
                     :key="freet.id"
                     :freet="freet"
+                    :freetPage="false"
                 />
             </div>
             <article v-else>
@@ -64,6 +58,7 @@
                     v-for="freet in this.originalFreets"
                     :key="freet.id"
                     :freet="freet"
+                    :freetPage="false"
                 />
             </div>
             <article v-else>
@@ -76,6 +71,7 @@
                     v-for="freet in this.refreets"
                     :key="freet.id"
                     :freet="freet"
+                    :freetPage="false"
                 />
             </div>
             <article v-else>

@@ -31,16 +31,8 @@ export default {
       },
       callback: async () => {
         // will always want to update stored replies: only matters if on Freet page
-        const options = {
-          method: 'GET', 
-          headers: {'Content-Type': 'application/json'},
-        };
-        const r = await fetch(`/api/freets/reply?freetId=${this.replyTo}`, options);
-        const res = await r.json();
-        if (!r.ok) {
-          throw new Error(res.error);
-        }
-        this.$store.commit('updateReplies', res);
+        this.$store.commit('refreshFreet', this.replyTo);
+        this.$store.commit('refreshReplies', this.replyTo);
 
         console.log("Successfully replied to freet!");
         this.$emit('reply-success');

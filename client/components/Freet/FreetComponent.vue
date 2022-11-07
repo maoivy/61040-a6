@@ -48,6 +48,18 @@
     >
       {{ freet.content }}
     </p>
+    <div v-if="freet.readmore">
+      <button 
+        v-if="!this.freetPage"
+        @click="read"
+      >
+        Read More
+      </button>
+      <div v-else>
+        <p>Read more:</p>
+        <p> {{ freet.readmore }}</p>
+      </div>
+    </div>
     <router-link
       v-bind:to="'/freets/' + freet._id"
     >
@@ -120,6 +132,11 @@ export default {
     freet: {
       type: Object,
       required: true
+    },
+    // Whether or not this is the freet page view
+    freetPage: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
@@ -132,6 +149,27 @@ export default {
     };
   },
   methods: {
+    async read() {
+      // only read if the post isn't yours, just for performance 
+      if (this.freet.author !== this.$store.state.username) {
+        const options = {
+          method: 'POST', 
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({'freetId': `${this.freet._id}`}),
+        };
+
+        try {
+        const r = await fetch(`/api/read`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      this.$router.push(`/freets/${this.freet._id}`);
+    },
     async like() {
       /**
        * Likes the freet.
@@ -149,8 +187,12 @@ export default {
           throw new Error(res.error);
         }
 
-        this.$store.commit('refreshFreets');
         this.$store.commit('refreshLikes');
+        if (this.freetPage) {
+          this.$store.commit('refreshFreet', this.freet._id);
+        } else {
+          this.$store.commit('refreshFreets');
+        }
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -172,8 +214,12 @@ export default {
           throw new Error(res.error);
         }
 
-        this.$store.commit('refreshFreets');
         this.$store.commit('refreshLikes');
+        if (this.freetPage) {
+          this.$store.commit('refreshFreet', this.freet._id);
+        } else {
+          this.$store.commit('refreshFreets');
+        }
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
@@ -231,16 +277,7 @@ export default {
           });
           // update replies in store if a reply was deleted on a freet page
           if (this.$route.params.freetId) {
-            const options = {
-              method: 'GET', 
-              headers: {'Content-Type': 'application/json'},
-            };
-            const r = await fetch(`/api/freets/reply?freetId=${this.$route.params.freetId}`, options);
-            const res = await r.json();
-            if (!r.ok) {
-              throw new Error(res.error);
-            }
-            this.$store.commit('updateReplies', res);
+            this.$store.commit('refreshReplies', this.$route.params.freetId);
           }
         }
       };
