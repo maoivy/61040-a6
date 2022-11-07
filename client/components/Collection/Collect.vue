@@ -10,6 +10,7 @@
     <section>
       <div
         v-for="collection in this.$store.state.collections"
+        :key="collection._id"
       >
         <span v-if="addingTo.includes(collection._id)">+</span>
         <span v-if="removingFrom.includes(collection._id)">-</span>

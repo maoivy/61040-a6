@@ -22,21 +22,25 @@ const router = express.Router();
  * @throws {403} - If user is not logged in
  */
 /**
- * Get filtered freets from home feed
- *
- * @name GET /api/freets?filterId=filter
- *
- * @return {FreetResponse[]} - A list of all the freets sorted in descending
- *                      order by date modified
- */
-/**
  * Get freets by author.
  *
  * @name GET /api/freets?username=username
  *
  * @return {FreetResponse[]} - An array of freets created by user with id userId
  * @throws {400} - If userId is not given
+ * @throws {403} - If user is not logged in
  * @throws {404} - If user with userId is not found
+ *
+ */
+/**
+ * Get freet by freetId.
+ *
+ * @name GET /api/freets?freetId=freetId
+ *
+ * @return {FreetResponse} - The freet with id freetId
+ * @throws {400} - If freetId is not given
+ * @throws {403} - If user is not logged in
+ * @throws {404} - If freet with freetId is not found
  *
  */
 router.get(
@@ -45,8 +49,8 @@ router.get(
     userValidator.isUserLoggedIn,
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    // Check if userId query parameter was supplied
-    if (req.query.username !== undefined) {
+    // Check if username or freetId query parameters were supplied
+    if (req.query.username !== undefined || req.query.freetId !== undefined) { 
       next();
       return;
     }
@@ -57,13 +61,27 @@ router.get(
     res.status(200).json(response);
   },
   [
-    userValidator.isAuthorExists
+    userValidator.isAuthorExistsOrFreetId,
   ],
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Check if freetId query parameters were supplied
+    if (req.query.freetId !== undefined) {
+      next();
+      return;
+    }
+
     const authorFreets = await FreetCollection.findAllByUsername(req.query.username as string);
     const response = authorFreets.map(util.constructFreetResponse);
     res.status(200).json(response);
-  }
+  },
+  [
+    freetValidator.isFreetExistsQuery,
+  ],
+  async (req: Request, res: Response) => {
+    const freet = await FreetCollection.findOne(req.query.freetId as string);
+    const response = util.constructFreetResponse(freet);
+    res.status(200).json(response);
+  },
 );
 
 /**

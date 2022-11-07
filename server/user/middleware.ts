@@ -211,9 +211,15 @@ const isUserLoggedOut = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
- * Checks if a user with username in req.query exists
+ * Checks if a user with username in req.query exists, or if freetId is provided
  */
-const isAuthorExists = async (req: Request, res: Response, next: NextFunction) => {
+const isAuthorExistsOrFreetId = async (req: Request, res: Response, next: NextFunction) => {
+  // skip to next if freetId is provided (we're looking for a freet, not author)
+  if (req.query.freetId) {
+    next();
+    return;
+  }
+
   if (!req.query.username) {
     res.status(400).json({
       error: 'Provided author username must be nonempty.'
@@ -413,7 +419,7 @@ export {
   isUsernameBlankOrNotAlreadyInUse,
   isUsernameNotAlreadyInUse,
   isAccountExists,
-  isAuthorExists,
+  isAuthorExistsOrFreetId,
   isValidUsername,
   isBlankOrValidUsername,
   isValidPassword,
