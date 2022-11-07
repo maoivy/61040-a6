@@ -59,7 +59,13 @@ class CollectionCollection {
     }).populate({
       path: 'freets',
       populate: { path: 'refreetOf' }
-    });
+    }).populate({
+      path: 'freets.refreetOf',
+      populate: { path: 'authorId' }
+    }).populate({
+      path: 'freets.replyTo',
+      populate: { path: 'authorId' }
+    })    
   }
 
   /**

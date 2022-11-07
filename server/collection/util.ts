@@ -1,5 +1,6 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Collection, PopulatedCollection} from './model';
+import type {Freet} from '../freet/model';
 import type {FreetResponse} from '../freet/util';
 import {constructFreetResponse} from '../freet/util';
 
@@ -8,7 +9,7 @@ type CollectionResponse = {
   _id: string;
   user: string;
   name: string;
-  freets: Array<Types.ObjectId>;
+  freets: Array<any>;
 };
 
 /**
@@ -32,9 +33,15 @@ const constructCollectionResponse = (collection: HydratedDocument<Collection>): 
     name: collectionCopy.name.toString(),
     user: username,
     _id: collectionCopy._id.toString(),
-    freets: collectionCopy.freets.map((freet) => freet._id),
+    freets: collectionCopy.freets.map((freet) => formatFreetObject(freet)),
   };
 };
+
+const formatFreetObject = (freet: any): any => {
+  const freetCopy = { ...freet };
+  delete freetCopy.authorId.password;
+  return freetCopy;
+}
 
 export {
   constructCollectionResponse,
