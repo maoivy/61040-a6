@@ -64,17 +64,29 @@
                 <h3>No Refreets found.</h3>
             </article>
         </div>
-        
+        <div v-if="this.view === 'collections'">
+            <div v-if="this.collections.length">
+                <CollectionComponent
+                    v-for="collection in this.collections"
+                    :key="collection.id"
+                    :collection="collection"
+                />
+            </div>
+            <article v-else>
+                <h3>No Collections found.</h3>
+            </article>
+        </div>
     </section>
   </main>
 </template>
 
 <script>
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
+import CollectionComponent from '@/components/Freet/FreetComponent.vue';
 
 export default {
   name: 'ProfilePage',
-  components: {FreetComponent},
+  components: {FreetComponent, CollectionComponent},
   data() {
     return {
       profile: {},
