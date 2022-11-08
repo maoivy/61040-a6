@@ -49,8 +49,9 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-  --background: #faf9f5;
-  --background-darker: #e8e7e1;
+  --background: #ffffff;
+  --background-darker: #f2f2f2;
+  --background-darkest: #e6e6e6;
   --borders: #555555;
   --links: #52c2c4;
 }

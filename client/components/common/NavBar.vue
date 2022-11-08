@@ -5,18 +5,20 @@
 <template>
   <nav>
     <div class="links">
-      <router-link to="/">
+      <router-link to="/" :class="{ active: $route.path === '/' }">
         Home
       </router-link>
       <router-link
         v-if="$store.state.username"
         to="/account"
+        :class="{ active: $route.path === '/account' }"
       >
         Account
       </router-link>
       <router-link
         v-if="$store.state.username"
         v-bind:to="'/users/' + $store.state.username"
+        :class="{ active: $route.path === '/users/' + $store.state.username }"
       >
         Profile
       </router-link>
@@ -30,18 +32,10 @@
     <div class="logo">
       <img src="../../public/logo.svg">
       <div v-if="$store.state.username" class="logo-text">
-        <router-link
-          v-bind:to="'/users/' + $store.state.username"
-        >
-          @{{ $store.state.username }}
-        </router-link>
+        @{{ $store.state.username }}
       </div>
       <div v-else class="logo-text">
-        <router-link
-          v-bind:to="'/'"
-        >
-          Fritter
-        </router-link>
+        Fritter
       </div>
     </div>
   </nav>
@@ -62,10 +56,25 @@ nav {
 .links {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   position: relative;
-  gap: 1em;
+  gap: 0.5em;
+}
+
+.links a, logo {
+  padding: 0.5em 1em;
+}
+
+.links a, .logo-text {
+  font-weight: bold;
   font-size: 1.5em;
+}
+
+.links a:hover {
+  background-color: var(--background-darker);
+}
+
+.links .active {
+  background-color: var(--background-darkest);
 }
 
 .logo {
@@ -82,8 +91,6 @@ nav {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-weight: bold;
-  font-size: 1.5em;
 }
 
 img {
