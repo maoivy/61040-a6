@@ -10,6 +10,7 @@
       <div
         v-for="field in fields"
         :key="field.id"
+        class="field"
       >
         <label :for="field.id">{{ field.label }}:</label>
         <textarea
@@ -30,17 +31,21 @@
     <article v-else>
       <p>{{ content }}</p>
     </article>
-    <button
-      type="submit"
-    >
-      {{ title }}
-    </button>
-    <button
-      v-if="cancel"
-      @click="this.cancelCallback"
-    >
-      Cancel
-    </button>
+    <footer>
+      <button
+        type="submit"
+        class="submit"
+        :class="{ danger: this.danger }"
+      >
+        {{ title }}
+      </button>
+      <button
+        v-if="cancel"
+        @click="this.cancelCallback"
+      >
+        Cancel
+      </button>
+    </footer>
   </form>
 </template>
 
@@ -62,6 +67,7 @@ export default {
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null, // Function to run after successful form submission
       cancel: false,
+      danger: false, // Whether submitting the form is a "dangerous" event
       cancelCallback: null, // Function to run after cancelling form
     };
   },
@@ -125,17 +131,13 @@ export default {
 <style scoped>
 form {
   border: 1px solid var(--borders);
-  padding: 0.5rem;
+  border-radius: 0.5em;
+  padding: 0.75em 1.5em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 14px;
+  gap: 0.5em;
   position: relative;
-}
-
-article > div {
-  display: flex;
-  flex-direction: column;
 }
 
 form > article p {
@@ -155,4 +157,36 @@ textarea {
    font-family: inherit;
    font-size: inherit;
 }
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.field input, .field textarea {
+  flex-grow: 2;
+}
+
+footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit, .danger {
+  font-weight: bold;
+  padding: 0.5em 1em;
+  border-radius: 0.5em;
+}
+
+.submit {
+  background-color: var(--links);
+  color: var(--links-text);
+}
+
+.danger {
+  background-color: var(--danger);
+  color: var(--danger-text);
+}
+
 </style>

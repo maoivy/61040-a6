@@ -57,6 +57,9 @@ export default {
   --background-darkest: #d9d9d9;
   --borders: #cccccc;
   --links: #52c2c4;
+  --links-text: #ffffff;
+  --danger: #f53646;
+  --danger-text: #ffffff;
 }
 
 * {

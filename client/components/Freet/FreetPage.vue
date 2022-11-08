@@ -100,14 +100,4 @@ header, header > * {
     justify-content: space-between;
     align-items: center;
 }
-
-button {
-    margin-right: 10px;
-}
-
-section .scrollbox {
-  flex: 1 0 50vh;
-  padding: 3%;
-  overflow-y: scroll;
-}
 </style>

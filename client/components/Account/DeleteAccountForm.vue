@@ -14,6 +14,7 @@ export default {
       title: 'Delete account',
       fields: [],
       content: 'Deleting your account is permanent and irreversible. Proceed only if you understand these consequences.',
+      danger: true,
       callback: () => {
         this.$router.push({name: 'Home'}); // Goes to Home page after deleting account
         this.$store.commit('alert', {

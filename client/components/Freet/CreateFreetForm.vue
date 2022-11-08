@@ -16,7 +16,7 @@ export default {
         {id: 'readmore', label: 'Read More', value: '', type: 'textarea'},
         {id: 'categories', label: 'Categories', value: ''}
       ],
-      title: 'Create a freet',
+      title: 'Freet',
       refreshFreets: true,
       callback: () => {
         this.$store.commit('alert', {
