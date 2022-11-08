@@ -41,9 +41,10 @@
       </div>
     </div>
     <router-link
+      v-if="freet.refreetOf"
       v-bind:to="'/freets/' + freet.refreetOf._id"
     >
-      <div v-if="freet.refreetOf" class="refreet-details">
+      <div class="refreet-details">
         <p class="refreeted-author">@{{ freet.refreetOf.author }}</p>
         <p class="refreeted-content">{{ freet.refreetOf.content }}</p>
       </div>
