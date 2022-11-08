@@ -20,6 +20,7 @@ export default {
     }).then(res => res.json()).then(res => {
       const user = res.user;
       this.$store.commit('setUsername', user ? user.username : null);
+      this.$store.commit('setUserId', user ? user._id : null);
       this.$store.commit('setLikes', user ? user.likes : null);
       this.$store.commit('setFollowing', user ? user.following : null);
 

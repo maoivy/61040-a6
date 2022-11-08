@@ -10,6 +10,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     freets: [], // All freets created in the app
+    userId: null, // User ID of the logged in user
     username: null, // Username of the logged in user
     following: [],
     likes: [],
@@ -30,6 +31,7 @@ const store = new Vuex.Store({
     },
     clear(state) {
       state.freets = [];
+      state.userId = null;
       state.username = null;
       state.following = [],
       state.likes = [],
@@ -37,6 +39,13 @@ const store = new Vuex.Store({
       state.freet = {};
       state.replies = []; 
       state.alerts = {};
+    },
+    setUserId(state, userId) {
+      /**
+       * Update the stored user ID to the specified one.
+       * @param userId - new user ID to set
+       */
+      state.userId = userId;
     },
     setUsername(state, username) {
       /**
@@ -103,6 +112,15 @@ const store = new Vuex.Store({
       const url = '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    },
+    async refreshUser(state) {
+      /**
+       * Request the server for the current user's username and ID.
+       */
+      const url = '/api/users/session';
+      const res = await fetch(url).then(async r => r.json());
+      state.username = res.user.username;
+      state.userId = res.user.userId;
     },
     async refreshLikes(state) {
       /**
