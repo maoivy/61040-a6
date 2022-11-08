@@ -24,7 +24,7 @@
       </div>
     </header>
     <p
-      class="content"
+      class="freet-content"
     >
       {{ freet.content }}
     </p>
@@ -40,16 +40,14 @@
         <p> {{ freet.readmore }}</p>
       </div>
     </div>
-    <div v-if="freet.refreetOf" class="refreet-details">
-      <router-link
-        v-bind:to="'/freets/' + freet.refreetOf._id"
-      >
-        <div>
-          <p>@{{ freet.refreetOf.author }}</p>
-        </div>
-      </router-link>
-      <p>{{ freet.refreetOf.content }}</p>
-    </div>
+    <router-link
+      v-bind:to="'/freets/' + freet.refreetOf._id"
+    >
+      <div v-if="freet.refreetOf" class="refreet-details">
+        <p class="refreeted-author">@{{ freet.refreetOf.author }}</p>
+        <p class="refreeted-content">{{ freet.refreetOf.content }}</p>
+      </div>
+    </router-link>
     <router-link
       v-bind:to="'/freets/' + freet._id"
     >
@@ -382,8 +380,24 @@ export default {
 }
 
 .refreet-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
   border: 1px solid var(--borders);
   padding: 1em;
+  margin-bottom: 1em;
+}
+
+.refreet-details .refreeted-author {
+  font-weight: bold;
+}
+
+.refreet-details .refreeted-content {
+  color: var(--text);
+}
+
+.freet-content {
+  margin-bottom: 1em;
 }
 
 footer {
