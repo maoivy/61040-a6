@@ -352,6 +352,9 @@ export default {
         }
         
         this.$store.commit('refreshFreets');
+        this.$store.commit('alert', {
+          message: 'Freet successfully deleted.', status: 'success'
+        });
       } catch (e) {
         this.$store.commit('alert', {
           message: e, status: 'error'
