@@ -8,7 +8,7 @@ type CollectionResponse = {
   _id: string;
   user: string;
   name: string;
-  freets: Array<Types.ObjectId>;
+  freets: Array<any>;
 };
 
 /**
@@ -24,6 +24,7 @@ const constructCollectionResponse = (collection: HydratedDocument<Collection>): 
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
+  
   const { username } = collectionCopy.userId;
   delete collectionCopy.userId;
   return {
@@ -31,9 +32,38 @@ const constructCollectionResponse = (collection: HydratedDocument<Collection>): 
     name: collectionCopy.name.toString(),
     user: username,
     _id: collectionCopy._id.toString(),
-    freets: collectionCopy.freets.map((freet) => freet._id),
+    freets: collectionCopy.freets.map((freet) => formatFreet(freet)),
   };
 };
+
+const formatFreet = (freet: any): any => {
+  const freetCopy = { ...freet };
+  
+  // author
+  const { username } = freetCopy.authorId;
+  delete freetCopy.authorId;
+  freetCopy.author = username;
+
+  // refreetOf
+  if (freetCopy.refreetOf) {
+    const { refreetOf } = freetCopy;
+    const { username } = refreetOf.authorId;
+    delete refreetOf.authorId;
+    refreetOf.author = username;
+    freetCopy.refreetOf = refreetOf;
+  }
+
+  // replyTo
+  if (freetCopy.replyTo) {
+    const { replyTo } = freetCopy;
+    const { username } = replyTo.authorId;
+    delete replyTo.authorId;
+    replyTo.author = username;
+    freetCopy.refreetOf = replyTo;
+  }
+
+  return freetCopy;
+}
 
 export {
   constructCollectionResponse,

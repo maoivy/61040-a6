@@ -29,7 +29,40 @@ class CollectionCollection {
       dateCreated: date,
     });
     await collection.save(); // Saves collection to MongoDB
-    return collection.populate(['userId', 'freets']);
+    return CollectionModel.findOne({ _id: collection._id }).populate([
+      'userId', 
+      'freets', 
+      {
+        path: 'freets',
+        populate: { path: 'authorId' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'refreetOf' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'replyTo' }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'refreetOf',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'replyTo',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+    ]);
   }
 
   /**
@@ -39,7 +72,40 @@ class CollectionCollection {
    * @return {Promise<HydratedDocument<Collection>> | Promise<null> } - The collection with the given collectionId, if any
    */
    static async findOne(collectionId: Types.ObjectId | string): Promise<HydratedDocument<Collection>> {
-    return CollectionModel.findOne({_id: collectionId}).populate(['userId', 'freets']);
+    return CollectionModel.findOne({_id: collectionId}).populate([
+      'userId', 
+      'freets', 
+      {
+        path: 'freets',
+        populate: { path: 'authorId' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'refreetOf' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'replyTo' }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'refreetOf',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'replyTo',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+    ]);
   }
 
   /**
@@ -50,10 +116,40 @@ class CollectionCollection {
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Collection>>> {
     const user = await UserCollection.findOneByUsername(username);
-    return CollectionModel.find({ userId: user._id }).populate(['userId', 'freets']).populate({
-      path: 'freets',
-      populate: { path: 'authorId' }
-    });
+    return CollectionModel.find({ userId: user._id }).populate([
+      'userId', 
+      'freets', 
+      {
+        path: 'freets',
+        populate: { path: 'authorId' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'refreetOf' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'replyTo' }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'refreetOf',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'replyTo',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+    ]);
   }
 
   /**
@@ -63,7 +159,40 @@ class CollectionCollection {
    * @return {Promise<HydratedDocument<Collection>[]>} - An array of all of the freets
    */
    static async findAllByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Collection>>> {
-    return CollectionModel.find({ userId }).populate(['userId', 'freets']);
+    return CollectionModel.find({ userId }).populate([
+      'userId', 
+      'freets', 
+      {
+        path: 'freets',
+        populate: { path: 'authorId' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'refreetOf' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'replyTo' }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'refreetOf',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'replyTo',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+    ]);
   }
 
   /**
@@ -84,7 +213,40 @@ class CollectionCollection {
     }
 
     await collection.save();
-    return collection.populate(['userId', 'freets']);
+    return CollectionModel.findOne({ _id: collectionId }).populate([
+      'userId', 
+      'freets', 
+      {
+        path: 'freets',
+        populate: { path: 'authorId' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'refreetOf' }
+      },
+      {
+        path: 'freets',
+        populate: { path: 'replyTo' }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'refreetOf',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+      {
+        path: 'freets',
+        populate: {
+          path: 'replyTo',
+          populate: {
+            path: 'authorId',
+          }
+        }
+      },
+    ]);
   }
 
   /**

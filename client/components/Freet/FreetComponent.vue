@@ -158,7 +158,6 @@ export default {
     // Whether or not this is the freet page view
     freetPage: {
       type: Boolean,
-      required: true
     }
   },
   data() {

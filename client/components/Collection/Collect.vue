@@ -54,8 +54,7 @@ export default {
       } else if (this.removingFrom.includes(collection._id)) {
         this.removingFrom = this.removingFrom.filter((id) => id !== collection._id);
       } else {
-        // add to arrays depending on current membership
-        if (collection.freets.includes(this.freetId)) {
+        if (Object.assign([], collection.freets).some((freet) => freet._id === this.freetId)) {
           this.removingFrom.push(collection._id);
         } else {
           this.addingTo.push(collection._id);

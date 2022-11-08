@@ -14,7 +14,6 @@
           v-for="relevance in this.relevances"
           :key="relevance._id"
           :freet="relevance.freet"
-          :freetPage="false"
         />-->
       </div>
     </section>

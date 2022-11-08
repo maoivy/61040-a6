@@ -15,7 +15,6 @@
         :value="newName"
         @input="newName = $event.target.value"
       />
-      {{ collection.freets }}
       <div
         v-if="$store.state.username === collection.user"
         class="actions"
@@ -31,6 +30,13 @@
         </button>
       </div>
     </header>
+    <div v-if="collection.freets.length">
+      <FreetComponent 
+        v-for="freet in collection.freets"
+        :freet="freet"
+        :key="freet._id"
+      />
+    </div>
   </article>
 </template>
 

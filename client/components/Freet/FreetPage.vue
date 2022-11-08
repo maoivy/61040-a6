@@ -18,7 +18,6 @@
           v-for="reply in this.$store.state.replies"
           :key="reply._id"
           :freet="reply"
-          :freetPage="false"
         />
       </section>
     </section>
