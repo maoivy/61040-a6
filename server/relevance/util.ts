@@ -24,18 +24,25 @@ const constructRelevanceResponse = (relevance: HydratedDocument<Relevance>): Rel
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  const freet = relevanceCopy.freetId;
-  delete relevanceCopy.freetId;
+
   return {
     ...relevanceCopy,
     _id: relevanceCopy._id.toString(),
     category: relevanceCopy.category.toString(),
-    freet: freet,
+    freet: formatFreet(relevanceCopy.freetId),
     relevanceScore: relevanceCopy.relevanceScore,
     relevantVotes: relevanceCopy.relevantVotes,
     totalVotes: relevanceCopy.totalVotes,
   };
 };
+
+const formatFreet = (freet: any): any => {
+  const freetCopy = {...freet}
+  const author = freetCopy.authorId;
+  delete freetCopy.authorId;
+  freetCopy.author = author.username;
+  return freetCopy;
+}
 
 export {
   constructRelevanceResponse,

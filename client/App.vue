@@ -145,7 +145,7 @@ textarea {
 .alerts {
     position: absolute;
     z-index: 99;
-    top: 0.3em;
+    top: 1em;
     left: 50%;
     transform: translate(-50%, 10%);
     text-align: center;
