@@ -50,8 +50,7 @@ export default {
 
 :root {
   --background: #ffffff;
-  --background-darker: #f2f2f2;
-  --background-darkest: #e6e6e6;
+  --background-darker: #efefef;
   --borders: #555555;
   --links: #52c2c4;
 }
