@@ -18,6 +18,7 @@ export default {
             content: 'Create a new collection...',
             callback: () => {
                 this.$emit('new-collection');
+                this.$store.commit('refreshCollections');
             }
         };
     }

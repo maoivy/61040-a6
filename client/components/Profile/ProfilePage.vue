@@ -80,18 +80,34 @@
                 v-if="this.profile.username === this.$store.state.username" 
                 @new-collection="this.getCollections" 
             />
-            <div v-if="this.collections.length">
-                <CollectionComponent
-                    v-for="collection in this.collections"
-                    :key="collection.id"
-                    :collection="collection"
-                    @collection-deleted="getCollections"
-                    @collection-edited="getCollections"
-                />
-            </div>
-            <article v-else>
+            <div v-if="this.profile.username === this.$store.state.username">
+              <div v-if="this.$store.state.collections && this.$store.state.collections.length">
+                  <CollectionComponent
+                      v-for="collection in this.$store.state.collections"
+                      :key="collection.id"
+                      :collection="collection"
+                      @collection-deleted="getCollections"
+                      @collection-edited="getCollections"
+                  />
+              </div>
+              <article v-else>
                 <h3>No Collections found.</h3>
-            </article>
+              </article>
+            </div>
+            <div v-else>
+              <div v-if="this.collections.length">
+                  <CollectionComponent
+                      v-for="collection in this.collections"
+                      :key="collection.id"
+                      :collection="collection"
+                      @collection-deleted="getCollections"
+                      @collection-edited="getCollections"
+                  />
+              </div>
+              <article v-else>
+                <h3>No Collections found.</h3>
+              </article>
+            </div>
         </div>
     </section>
   </main>
@@ -175,6 +191,11 @@ export default {
       /**
        * Gets the freets for the user whose profile page this is.
        */
+      // use the store if this is the user's own profile page, so updates to collections can be tracked
+      if (this.$route.params.username === this.$store.state.username) {
+        this.collections = this.$store.state.collections;
+      }
+
       const options = {
         method: 'GET', 
         headers: {'Content-Type': 'application/json'},
