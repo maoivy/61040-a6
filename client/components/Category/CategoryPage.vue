@@ -7,7 +7,7 @@
       <header>
         <h2>Category: {{ $route.params.category }}</h2>
       </header>
-      <CreateFreetForm />
+      <CreateFreetFormCategory :category="$route.params.category" />
       <div v-if="this.relevances.length">
         {{ this.relevances }} 
         <!--<FreetComponent
@@ -22,11 +22,11 @@
 
 <script>
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
-import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
+import CreateFreetFormCategory from '@/components/Freet/CreateFreetFormCategory.vue';
 
 export default {
   name: 'CategoryPage',
-  components: {FreetComponent, CreateFreetForm},
+  components: {FreetComponent, CreateFreetFormCategory},
   data() {
     return {
       relevances: [],
