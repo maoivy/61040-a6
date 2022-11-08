@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     filter: '', // Filter of the logged in user
     following: [], // Following of the logged in user
     likes: [], // Likes of the logged in user
+    refreets: [], // Refreets of the logged in user
     collections: [], // Collections of the logged in user
     freet: {}, // Freet most recently viewed
     replies: [], // Replies of Freet most recently viewed 
@@ -37,6 +38,7 @@ const store = new Vuex.Store({
       state.filter = '';
       state.following = [];
       state.likes = [];
+      state.refreets = [],
       state.collections = [];
       state.freet = {};
       state.replies = []; 
@@ -56,10 +58,17 @@ const store = new Vuex.Store({
        */
       state.username = username;
     },
+    setRefreets(state, refreets) {
+      /**
+       * Update the stored user's refreets to the specified one.
+       * @param refreets - new rfreets to set
+       */
+      state.refreets = refreets;
+    },
     setLikes(state, likes) {
       /**
        * Update the stored user's likes to the specified one.
-       * @param user - new user to set
+       * @param likes - new likes to set
        */
       state.likes = likes;
     },
@@ -132,6 +141,7 @@ const store = new Vuex.Store({
       state.userId = res.user.userId;
       state.following = res.user.following;
       state.likes = res.user.likes;
+      state.refreets = res.user.refreets;
       state.filter = res.user.filter;
     },
     async refreshCollections(state) {

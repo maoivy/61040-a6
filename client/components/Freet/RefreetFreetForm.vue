@@ -30,8 +30,10 @@ export default {
         this.$emit('cancel-refreet');
       },
       callback: async () => {
-        // will always want to update stored replies: only matters if on Freet page
+        // will always want to update stored refreets: only matters if on Freet page
         this.$store.commit('refreshFreet', this.refreetOf);
+        // refresh user to track refreet
+        this.$store.commit('refreshUser', this.refreetOf);
 
         this.$store.commit('alert', {
           message: 'Refreet published.', status: 'success'
