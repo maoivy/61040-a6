@@ -407,6 +407,7 @@ footer {
   align-items: center;
   gap: 2em;
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 footer div {
