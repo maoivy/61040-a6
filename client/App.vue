@@ -60,6 +60,8 @@ export default {
   --links-text: #ffffff;
   --danger: #f53646;
   --danger-text: #ffffff;
+
+  --border-radius: 0.5em;
 }
 
 * {
@@ -150,7 +152,7 @@ textarea {
 }
 
 .alerts article {
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     padding: 10px 20px;
     color: #fff;
 }

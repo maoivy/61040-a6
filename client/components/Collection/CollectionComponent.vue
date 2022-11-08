@@ -121,6 +121,7 @@ export default {
 <style scoped>
 .collection {
     border: 1px solid var(--borders);
+    border-radius: var(--border-radius);
     padding: 20px;
     position: relative;
 }

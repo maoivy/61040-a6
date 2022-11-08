@@ -39,7 +39,6 @@
           <p v-if="!editing">{{ this.profile.bio }}</p>
           <textarea
             v-else
-            class="content"
             :value="bio"
             @input="bio = $event.target.value"
           />
@@ -76,7 +75,7 @@
             </button>
         </div>
         <div v-if="this.view === 'allFreets'">
-            <div v-if="this.allFreets.length">
+            <div v-if="this.allFreets.length" class="content-wrapper">
                 <FreetComponent
                     v-for="freet in this.allFreets"
                     :key="freet.id"
@@ -88,7 +87,7 @@
             </article>
         </div>
         <div v-if="this.view === 'originalFreets'">
-            <div v-if="this.originalFreets.length">
+            <div v-if="this.originalFreets.length" class="content-wrapper">
                 <FreetComponent
                     v-for="freet in this.originalFreets"
                     :key="freet.id"
@@ -100,7 +99,7 @@
             </article>
         </div>
         <div v-if="this.view === 'refreets'">
-            <div v-if="this.refreets.length">
+            <div v-if="this.refreets.length" class="content-wrapper">
                 <FreetComponent
                     v-for="freet in this.refreets"
                     :key="freet.id"
@@ -111,13 +110,13 @@
                 <h3>No Refreets found.</h3>
             </article>
         </div>
-        <div v-if="this.view === 'collections'">
+        <div v-if="this.view === 'collections'" class="content-wrapper">
             <NewCollectionForm 
                 v-if="this.profile.username === this.$store.state.username" 
                 @new-collection="this.getCollections" 
             />
             <div v-if="this.profile.username === this.$store.state.username">
-              <div v-if="this.$store.state.collections && this.$store.state.collections.length">
+              <div v-if="this.$store.state.collections && this.$store.state.collections.length" class="content-wrapper">
                   <CollectionComponent
                       v-for="collection in this.$store.state.collections"
                       :key="collection.id"
@@ -130,14 +129,12 @@
                 <h3>No Collections found.</h3>
               </article>
             </div>
-            <div v-else>
+            <div v-else class="content-wrapper">
               <div v-if="this.collections.length">
                   <CollectionComponent
                       v-for="collection in this.collections"
                       :key="collection.id"
                       :collection="collection"
-                      @collection-deleted="getCollections"
-                      @collection-edited="getCollections"
                   />
               </div>
               <article v-else>
@@ -359,13 +356,7 @@ header h2 {
   margin-bottom: 0.5em;
 }
 
-.profile {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.details {
+.profile, .details, .content-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1em;

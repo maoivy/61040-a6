@@ -359,6 +359,7 @@ export default {
 <style scoped>
 .freet {
   border: 1px solid var(--borders);
+  border-radius: var(--border-radius);
   padding: 20px;
   position: relative;
 }
