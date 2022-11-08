@@ -6,6 +6,7 @@
     <h3>{{ title }}</h3>
     <article
       v-if="fields.length"
+      class="fields"
     >
       <div
         v-for="field in fields"
@@ -132,7 +133,7 @@ export default {
 form {
   border: 1px solid var(--borders);
   border-radius: 0.5em;
-  padding: 0.75em 1.5em;
+  padding: 1em 1.5em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -158,10 +159,16 @@ textarea {
    font-size: inherit;
 }
 
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
 .field {
   display: flex;
-  align-items: center;
-  gap: 1em;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 .field input, .field textarea {

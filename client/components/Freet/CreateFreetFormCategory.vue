@@ -21,9 +21,9 @@ export default {
       fields: [
         {id: 'content', label: 'Content', value: '', type: 'textarea'},
         {id: 'readmore', label: 'Read More', value: '', type: 'textarea'},
-        {id: 'categories', label: 'Categories', value: this.category}
+        {id: 'categories', label: 'Categories', value: this.category, type: 'textarea'}
       ],
-      title: `Create a freet in ${this.category}`,
+      title: `Write a new Freet in ${this.category}`,
       refreshFreets: true,
       callback: () => {
         this.$store.commit('alert', {
