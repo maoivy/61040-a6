@@ -72,7 +72,7 @@ body {
 }
 
 main {
-  padding: 0 5em 5em;
+  padding: 5vh 3vw;
   height: 100vh;
   width: 75%;
   overflow: scroll;
@@ -89,6 +89,15 @@ a {
 
 a:hover {
   cursor: pointer;
+}
+
+header, h2, h3 {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.5em;
 }
 
 .wrapper {
