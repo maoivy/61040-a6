@@ -9,10 +9,10 @@
         <p>{{ alert }}</p>
       </article>
     </section>
-    <header>
+    <div class="wrapper">
       <NavBar />
-    </header>
-    <router-view :key="$route.path" />
+      <router-view :key="$route.path" />
+    </div>
   </div>
 </template>
 
@@ -64,6 +64,18 @@ body {
 
 main {
   padding: 0 5em 5em;
+  height: 100vh;
+  width: 75vw;
+  overflow: scroll;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.wrapper {
+  height: 100vh;
+  display: flex;
 }
 
 .alerts {

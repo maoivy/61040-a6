@@ -38,9 +38,10 @@
 
 <style scoped>
 nav {
-    padding: 1vw 2vw;
-    background-color: #ccc;
+    height: 100%;
+    width: 25vw;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     position: relative;

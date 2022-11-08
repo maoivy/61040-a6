@@ -1,7 +1,7 @@
 <!-- Page for displaying a single Freet, its details, and replies -->
 
 <template>
-  <main v-on="$listeners">
+  <main>
     <section>
       <header>
         <h2>
