@@ -6,6 +6,15 @@
     class="freet"
   >
     <header>
+      <div v-if="freet.replyTo">
+        Replying to:
+        <router-link
+          v-bind:to="'/freets/' + freet.replyTo._id"
+        >
+          <p>@{{ freet.replyTo.author }}</p>
+          <p>{{ freet.replyTo.content }}</p>
+        </router-link>
+      </div>
       <h3 class="author">
         @{{ freet.author }}
       </h3>
@@ -35,6 +44,15 @@
         <p> {{ freet.readmore }}</p>
       </div>
     </div>
+    <router-link
+      v-bind:to="'/freets/' + freet.refreetOf._id"
+      v-if="freet.refreetOf"
+    >
+      <div>
+        <p>@{{ freet.refreetOf.author }}</p>
+        <p>{{ freet.refreetOf.content }}</p>
+      </div>
+    </router-link>
     <router-link
       v-bind:to="'/freets/' + freet._id"
     >

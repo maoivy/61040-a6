@@ -45,7 +45,23 @@ class FreetCollection {
     if (readmore) {
       await ReadCollection.addOne(freet._id, new Types.ObjectId(authorId));
     }
-    return freet.populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.findOne({ _id: freet._id }).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**
@@ -55,7 +71,23 @@ class FreetCollection {
    * @return {Promise<HydratedDocument<Freet>> | Promise<null> } - The freet with the given freetId, if any
    */
   static async findOne(freetId: Types.ObjectId | string): Promise<HydratedDocument<Freet>> {
-    return FreetModel.findOne({_id: freetId}).populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.findOne({_id: freetId}).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**
@@ -65,7 +97,23 @@ class FreetCollection {
    */
   static async findAll(): Promise<Array<HydratedDocument<Freet>>> {
     // Retrieves freets and sorts them from most to least recent
-    return FreetModel.find({}).sort({ dateCreated: -1 }).populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.find({}).sort({ dateCreated: -1 }).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**
@@ -76,7 +124,23 @@ class FreetCollection {
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Freet>>> {
     const author = await UserCollection.findOneByUsername(username);
-    return FreetModel.find({authorId: author._id}).populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.find({authorId: author._id}).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**
@@ -86,7 +150,23 @@ class FreetCollection {
    * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
    */
    static async findAllByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Freet>>> {
-    return FreetModel.find({authorId: userId}).populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.find({authorId: userId}).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**
@@ -96,7 +176,23 @@ class FreetCollection {
    * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
    */
    static async findAllByReplyTo(freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<Freet>>> {
-    return FreetModel.find({ replyTo: freetId }).populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.find({ replyTo: freetId }).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**
@@ -113,16 +209,64 @@ class FreetCollection {
       return FreetModel.find({ 
         authorId: { $in: authors }, 
         refreetOf: { $exists: false },
-      }).sort({ dateCreated: -1 }).populate(['authorId', 'refreetOf', 'replyTo']);
+      }).sort({ dateCreated: -1 }).populate([
+        'authorId',
+        'refreetOf',
+        'replyTo',
+        {
+          path: 'refreetOf',
+          populate: {
+            path: 'authorId',
+          }
+        },
+        {
+          path: 'replyTo',
+          populate: {
+            path: 'authorId',
+          }
+        },
+      ]);
     } else if (user.filter === 'refreets') {
       return FreetModel.find({ 
         authorId: { $in: authors }, 
         refreetOf: { $exists: true },
-      }).sort({ dateCreated: -1 }).populate(['authorId', 'refreetOf', 'replyTo']);
+      }).sort({ dateCreated: -1 }).populate([
+        'authorId',
+        'refreetOf',
+        'replyTo',
+        {
+          path: 'refreetOf',
+          populate: {
+            path: 'authorId',
+          }
+        },
+        {
+          path: 'replyTo',
+          populate: {
+            path: 'authorId',
+          }
+        },
+      ]);
     } 
     
     // default feed: both original freets and refreets
-    return FreetModel.find({ authorId: { $in: authors } }).sort({ dateCreated: -1 }).populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.find({ authorId: { $in: authors } }).sort({ dateCreated: -1 }).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**
@@ -151,7 +295,23 @@ class FreetCollection {
     }
 
     await freet.save();
-    return freet.populate(['authorId', 'refreetOf', 'replyTo']);
+    return FreetModel.findOne({ _id: freet._id }).populate([
+      'authorId',
+      'refreetOf',
+      'replyTo',
+      {
+        path: 'refreetOf',
+        populate: {
+          path: 'authorId',
+        }
+      },
+      {
+        path: 'replyTo',
+        populate: {
+          path: 'authorId',
+        }
+      },
+    ]);
   }
 
   /**

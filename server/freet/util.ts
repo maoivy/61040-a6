@@ -11,8 +11,8 @@ type FreetResponse = {
   likes: number,
   refreets: number,
   replies: number,
-  replyTo: string,
-  refreetOf: string,
+  replyTo: any,
+  refreetOf: any,
 };
 
 /**
@@ -36,21 +36,31 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
+
   const { username } = freetCopy.authorId;
   delete freetCopy.authorId;
-  const refreetContent = freetCopy.refreetOf ? freetCopy.refreetOf.content : '';
-  delete freetCopy.refreetOf;
-  const replyContent = freetCopy.replyTo? freetCopy.replyTo.content : '';
-  delete freetCopy.replyTo;
+  const { refreetOf, replyTo } = freetCopy;
   return {
     ...freetCopy,
     _id: freetCopy._id.toString(),
     author: username,
-    refreetOf: refreetContent,
-    replyTo: replyContent,
+    refreetOf: formatPopulatedFreet(refreetOf),
+    replyTo: formatPopulatedFreet(replyTo),
     dateCreated: formatDate(freet.dateCreated),
   };
 };
+
+const formatPopulatedFreet = (freet: any): any => {
+  if (!freet) {
+    return freet;
+  }
+
+  const freetCopy = { ...freet };
+  const { username } = freetCopy.authorId;
+  delete freetCopy.authorId;
+  freetCopy.author = username;
+  return freetCopy;
+}
 
 /**
  * Parse a comma-separated string of categories into an array
