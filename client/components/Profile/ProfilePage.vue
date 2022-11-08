@@ -6,36 +6,36 @@
     <section v-if='this.notFound'>
         <h2>The user @{{ $route.params.username }} could not be found.</h2>
     </section>
-    <section v-else>
+    <section v-else class="profile">
       <header>
-        <h2>@{{ $route.params.username }}</h2>
+        <h2 class="username">@{{ $route.params.username }}</h2>
+        <div class="actions">
+          <button 
+            v-if="!this.canEdit && this.$store.state.following && !this.$store.state.following.includes(this.profile._id)"
+            class="follow-button links"
+            @click="follow"
+          >
+            Follow
+          </button>
+          <button 
+            v-if="!this.canEdit && this.$store.state.following && this.$store.state.following.includes(this.profile._id)"
+            class="unfollow-button danger"
+            @click="unfollow"
+          >
+            Unfollow
+          </button>
+          <button v-if="this.canEdit && !editing" @click="startEditing" class="edit-button">
+              Edit profile
+          </button>
+          <button v-if="this.canEdit && editing" @click="stopEditing" class="cancel-button danger">
+              Cancel
+          </button>
+          <button v-if="this.canEdit && editing" @click="submitEdit" class="save-button links">
+              Save changes
+          </button>
+        </div>
       </header>
-      <div class="actions">
-        <button 
-          v-if="!this.canEdit && this.$store.state.following && !this.$store.state.following.includes(this.profile._id)"
-          class="follow-button links"
-          @click="follow"
-        >
-          Follow
-        </button>
-        <button 
-          v-if="!this.canEdit && this.$store.state.following && this.$store.state.following.includes(this.profile._id)"
-          class="unfollow-button danger"
-          @click="unfollow"
-        >
-          Unfollow
-        </button>
-        <button v-if="this.canEdit && !editing" @click="startEditing" class="edit-button">
-            Edit profile
-        </button>
-        <button v-if="this.canEdit && editing" @click="stopEditing" class="cancel-button danger">
-            Cancel
-        </button>
-        <button v-if="this.canEdit && editing" @click="submitEdit" class="save-button links">
-            Save changes
-        </button>
-      </div>
-      <div>
+      <div class="details">
           <p v-if="!editing">{{ this.profile.bio }}</p>
           <textarea
             v-else
@@ -43,18 +43,38 @@
             :value="bio"
             @input="bio = $event.target.value"
           />
-          <p>Joined {{ this.profile.dateJoined }} </p>
-          <p>{{ this.profile.following && this.profile.following.length }} following</p>
-          <p>{{ this.profile.followedBy && this.profile.followedBy.length }} followers</p>
+          <div class="follow-details">
+            <p>{{ this.profile.following && this.profile.following.length }} following</p>
+            <p>{{ this.profile.followedBy && this.profile.followedBy.length }} followers</p>
+          </div>
       </div>
-    </section>
-    <section>
-        <header>
-            <button @click="setView('allFreets')">All freets ({{this.allFreets.length}})</button>
-            <button @click="setView('originalFreets')">Freets ({{this.originalFreets.length}})</button>
-            <button @click="setView('refreets')">Refreets ({{this.refreets.length}})</button>
-            <button @click="setView('collections')">Collections ({{this.collections.length}})</button>
-        </header>
+      <section>
+        <div class="views">
+            <button 
+              @click="setView('allFreets')"
+              :class="{ active: this.view === 'allFreets' }"
+            >
+              All freets ({{this.allFreets.length}})
+            </button>
+            <button 
+              @click="setView('originalFreets')" 
+              :class="{ active: this.view === 'originalFreets' }"
+            >
+              Freets ({{this.originalFreets.length}})
+            </button>
+            <button 
+              @click="setView('refreets')"
+              :class="{ active: this.view === 'refreets' }"
+            >
+              Refreets ({{this.refreets.length}})
+            </button>
+            <button 
+              @click="setView('collections')"
+              :class="{ active: this.view === 'collections' }"
+            >
+              Collections ({{this.collections.length}})
+            </button>
+        </div>
         <div v-if="this.view === 'allFreets'">
             <div v-if="this.allFreets.length">
                 <FreetComponent
@@ -125,6 +145,7 @@
               </article>
             </div>
         </div>
+      </section>
     </section>
   </main>
 </template>
@@ -332,5 +353,44 @@ export default {
 <style scoped>
 .edit-button {
   background-color: var(--background-darker);
+}
+
+header h2 {
+  margin-bottom: 0.5em;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.follow-details {
+  display: flex;
+  gap: 1em;
+}
+
+.views {
+  display: flex;
+  margin-bottom: 0.75em;
+  gap: 0.75em;
+}
+
+.views button {
+  font-weight: bold;
+}
+
+.views button:hover {
+  background-color: var(--background-darker);
+}
+
+.views .active {
+  background-color: var(--background-darkest);
 }
 </style>

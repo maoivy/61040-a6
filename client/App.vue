@@ -118,13 +118,21 @@ a:hover {
   text-decoration: underline;
 }
 
-header, h2, h3 {
+header, h2, h3, p {
   padding: 0;
   margin: 0;
 }
 
 h2 {
   font-size: 1.5em;
+}
+
+textarea {
+   font-family: inherit;
+   font-size: inherit;
+   padding: 0.5em 1em;
+   min-height: 2.5em;
+   width: 100%;
 }
 
 .wrapper {
