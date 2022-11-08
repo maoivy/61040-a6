@@ -6,9 +6,24 @@
       <header>
         <h2>Feed</h2>
         <div>
-          <button @click="setFilter('default')">All freets</button>
-          <button @click="setFilter('original')">Freets</button>
-          <button @click="setFilter('refreets')">Refreets</button>
+          <button 
+            @click="setFilter('default')"
+            :class="{ active: $store.state.filter === 'default' }"
+          >
+            All freets
+          </button>
+          <button 
+            @click="setFilter('original')"
+            :class="{ active: $store.state.filter === 'original' }"
+          >
+            Freets
+          </button>
+          <button 
+            @click="setFilter('refreets')"
+            :class="{ active: $store.state.filter === 'refreets' }"
+          >
+            Refreets
+          </button>
         </div>
       </header>
       <CreateFreetForm />
