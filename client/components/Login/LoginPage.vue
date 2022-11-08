@@ -30,3 +30,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+</style>
