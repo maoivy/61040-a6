@@ -46,6 +46,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -56,7 +58,8 @@ body {
   display: flex;
   padding: 0;
   margin: 0;
-  font-size: 1.2em;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
 }
 
 main {
