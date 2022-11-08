@@ -120,7 +120,7 @@ export default {
 
 <style scoped>
 .collection {
-    border: 1px solid #111;
+    border: 1px solid var(--borders);
     padding: 20px;
     position: relative;
 }

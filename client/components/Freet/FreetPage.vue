@@ -5,7 +5,7 @@
     <section>
       <header>
         <h2>
-          Freet {{this.$route.params.freetId}}
+          Freet
         </h2>
       </header>
       <section>

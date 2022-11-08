@@ -100,7 +100,7 @@ export default {
 
 <style scoped>
 .collect {
-    border: 1px solid #111;
+    border: 1px solid var(--borders);
     padding: 20px;
     position: relative;
 }

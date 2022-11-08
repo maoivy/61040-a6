@@ -6,29 +6,21 @@
     class="freet"
   >
     <header>
-      <div v-if="freet.replyTo">
-        Replying to:
+      <div v-if="freet.replyTo" class="reply-details">
+        Replying to &nbsp
         <router-link
           v-bind:to="'/freets/' + freet.replyTo._id"
         >
-          <p>@{{ freet.replyTo.author }}</p>
-          <p>{{ freet.replyTo.content }}</p>
+          @{{ freet.replyTo.author }}'s Freet:
         </router-link>
+        &nbsp {{ freet.replyTo.content }}
       </div>
-      <router-link
-        v-bind:to="'/users/' + freet.author"
-      >
-        <h3 class="author">
+      <div class="author">
+        <router-link
+          v-bind:to="'/users/' + freet.author"
+        >
           @{{ freet.author }}
-        </h3>
-      </router-link>
-      <div
-        v-if="$store.state.username === freet.author"
-        class="actions"
-      >
-        <button @click="deleteFreet">
-          🗑️ Delete
-        </button>
+        </router-link>
       </div>
     </header>
     <p
@@ -48,15 +40,16 @@
         <p> {{ freet.readmore }}</p>
       </div>
     </div>
-    <router-link
-      v-bind:to="'/freets/' + freet.refreetOf._id"
-      v-if="freet.refreetOf"
-    >
-      <div>
-        <p>@{{ freet.refreetOf.author }}</p>
-        <p>{{ freet.refreetOf.content }}</p>
-      </div>
-    </router-link>
+    <div v-if="freet.refreetOf" class="refreet-details">
+      <router-link
+        v-bind:to="'/freets/' + freet.refreetOf._id"
+      >
+        <div>
+          <p>@{{ freet.refreetOf.author }}</p>
+        </div>
+      </router-link>
+      <p>{{ freet.refreetOf.content }}</p>
+    </div>
     <router-link
       v-bind:to="'/freets/' + freet._id"
     >
@@ -83,14 +76,13 @@
       </div>
       <div>
         <button
-          v-if="$store.state.likes && !$store.state.refreets.includes(freet._id)"
+          v-if="$store.state.refreets && !$store.state.refreets.includes(freet._id)"
           @click="startRefreeting"
         >
           Refreet
         </button>
         <span
           v-else
-          
         >
           Refreeted
         </span>
@@ -105,6 +97,9 @@
       </div>
       <button @click="startCollecting">
           Collect
+      </button>
+      <button v-if="$store.state.username === freet.author" @click="deleteFreet">
+          🗑️ Delete
       </button>
     </footer>
     <RefreetFreetForm 
@@ -363,9 +358,25 @@ export default {
 
 <style scoped>
 .freet {
-    border: 1px solid #111;
-    padding: 20px;
-    position: relative;
+  border: 1px solid var(--borders);
+  padding: 20px;
+  position: relative;
+}
+
+.author {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.reply-details {
+  display: flex;
+  margin-bottom: 1em;
+  font-style: italic;
+}
+
+.refreet-details {
+  border: 1px solid var(--borders);
+  padding: 1em;
 }
 
 footer {

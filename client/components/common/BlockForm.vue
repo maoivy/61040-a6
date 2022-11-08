@@ -124,7 +124,7 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
+  border: 1px solid var(--borders);
   padding: 0.5rem;
   display: flex;
   flex-direction: column;

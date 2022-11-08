@@ -53,7 +53,7 @@ export default {
   --background: #ffffff;
   --background-darker: #efefef;
   --background-darkest: #d9d9d9;
-  --borders: #555555;
+  --borders: #cccccc;
   --links: #52c2c4;
 }
 
@@ -98,6 +98,7 @@ a {
 
 a:hover {
   cursor: pointer;
+  text-decoration: underline;
 }
 
 header, h2, h3 {
