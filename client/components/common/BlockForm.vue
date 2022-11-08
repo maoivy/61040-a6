@@ -34,17 +34,18 @@
     </article>
     <footer>
       <button
+        v-if="cancel"
+        @click="this.cancelCallback"
+        class="danger"
+      >
+        Cancel
+      </button>
+      <button
         type="submit"
         class="submit"
         :class="{ danger: this.danger }"
       >
         {{ title }}
-      </button>
-      <button
-        v-if="cancel"
-        @click="this.cancelCallback"
-      >
-        Cancel
       </button>
     </footer>
   </form>
@@ -178,6 +179,7 @@ textarea {
 footer {
   display: flex;
   justify-content: flex-end;
+  gap: 1em;
 }
 
 .submit, .danger {
@@ -192,6 +194,12 @@ footer {
 }
 
 .danger {
+  background-color: var(--background);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.danger:hover {
   background-color: var(--danger);
   color: var(--danger-text);
 }

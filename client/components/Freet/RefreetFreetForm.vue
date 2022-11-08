@@ -23,7 +23,7 @@ export default {
         {id: 'content', label: 'Content', value: '', type: 'textarea'},
         {id: 'readmore', label: 'Read More', value: '', type: 'textarea'},
       ],
-      title: 'Refreet this freet',
+      title: 'Refreet',
       refreshFreets: true,
       cancel: true,
       cancelCallback: () => {

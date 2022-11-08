@@ -62,12 +62,14 @@
         <button
           v-if="$store.state.likes && !$store.state.likes.includes(freet._id)"
           @click="like"
+          class="count-button"
         >
           Like
         </button>
         <button
           v-if="$store.state.likes && $store.state.likes.includes(freet._id)"
           @click="unlike"
+          class="count-button"
         >
           Unlike
         </button>
@@ -78,13 +80,14 @@
         <button
           v-if="$store.state.refreets && !$store.state.refreets.includes(freet._id)"
           @click="startRefreeting"
+          class="count-button"
         >
           Refreet
         </button>
         <button
           v-else
           disabled
-          class="disabled"
+          class="disabled count-button"
         >
           Refreeted
         </button>
@@ -92,7 +95,7 @@
         <span> {{ freet.refreets }} </span>
       </div>
       <div>
-        <button @click="startReplying">
+        <button @click="startReplying" class="count-button">
           Reply
         </button>
         <span> {{ freet.replies }} </span>
@@ -103,7 +106,7 @@
         </button>
       </div>
       <div v-if="$store.state.username === freet.author">
-        <button @click="deleteFreet" class="delete-button">
+        <button @click="deleteFreet" class="danger">
             Delete
         </button>
       </div>
@@ -415,6 +418,7 @@ export default {
   flex-direction: column;
   gap: 1em;
   border: 1px solid var(--borders);
+  border-radius: var(--border-radius);
   padding: 1em;
   margin-bottom: 1em;
 }
@@ -447,11 +451,11 @@ footer div {
 
 footer div button {
   font-weight: bold;
-  padding: 0.5em 0em;
 }
 
-.delete-button {
-  color: var(--danger);
+footer div .count-button {
+  padding-left: 0em;
+  padding-right: 0em;
 }
 
 .categories {

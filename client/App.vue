@@ -107,6 +107,12 @@ button:hover {
 }
 
 .danger {
+  background-color: var(--background);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.danger:hover {
   background-color: var(--danger);
   color: var(--danger-text);
 }

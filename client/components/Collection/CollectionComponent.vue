@@ -17,17 +17,23 @@
       />
       <div
         v-if="$store.state.username === collection.user"
-        class="actions"
       >
-        <button v-if="!this.editing" @click="startEditing">
-          Edit
-        </button>
-        <button v-if="this.editing" @click="stopEditing">
-          Save changes
-        </button>
-        <button @click="deleteCollection">
-          🗑️ Delete
-        </button>
+        <div v-if="!this.editing" class="actions">
+          <button @click="startEditing" class="edit-button">
+            Edit
+          </button>
+          <button @click="deleteCollection" class="danger">
+            Delete
+          </button>
+        </div>
+        <div v-else class="actions">
+          <button @click="stopEditing" class="danger">
+            Cancel
+          </button>
+          <button @click="submitEdit" class="action">
+            Save changes
+          </button>
+        </div>
       </div>
     </header>
     <div v-if="collection.freets.length">
@@ -88,8 +94,16 @@ export default {
        * Enables edit mode for the collection.
        */
       this.editing = true;
+      this.newName = this.collection.name;
     },
-    async stopEditing() {
+    stopEditing() {
+      /**
+       * Enables edit mode for the collection.
+       */
+      this.editing = false;
+      this.newName = this.collection.name;
+    },
+    async submitEdit() {
       /**
        * Saves the changes made to the collection.
        */
@@ -120,9 +134,29 @@ export default {
 
 <style scoped>
 .collection {
-    border: 1px solid var(--borders);
-    border-radius: var(--border-radius);
-    padding: 20px;
-    position: relative;
+  border: 1px solid var(--borders);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  position: relative;
+}
+
+.actions {
+  display: flex;
+  gap: 1em;
+  margin-top: 0.75em;
+}
+
+.edit-button {
+  background-color: var(--background-darker);
+}
+
+.edit-button:hover {
+  background-color: var(--background-darkest);
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.25em 0.75em;
 }
 </style>

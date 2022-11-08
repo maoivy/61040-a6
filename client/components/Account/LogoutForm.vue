@@ -14,6 +14,7 @@ export default {
       title: 'Sign out',
       fields: [],
       content: 'Taking a break? See you later.',
+      danger: true,
       callback: () => {
         this.$router.push({name: 'Home'}); // Goes to Home page after signing out
         this.$store.commit('alert', {
