@@ -13,11 +13,14 @@
       </section>
       <section
         v-if="this.$store.state.replies.length"
+        class="replies"
       >
+        <h3>Replies</h3>
         <FreetComponent
           v-for="reply in this.$store.state.replies"
           :key="reply._id"
           :freet="reply"
+          :isFreetPageReply="true"
         />
       </section>
     </section>
@@ -100,4 +103,12 @@ header, header > * {
     justify-content: space-between;
     align-items: center;
 }
+
+.replies {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
 </style>

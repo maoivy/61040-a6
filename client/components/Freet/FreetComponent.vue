@@ -4,9 +4,10 @@
 <template>
   <article
     class="freet"
+    :class="{ 'freet-page': this.freetPage }"
   >
     <header>
-      <div v-if="freet.replyTo" class="reply-details">
+      <div v-if="freet.replyTo && !this.isFreetPageReply" class="reply-details">
         Replying to &nbsp
         <router-link
           v-bind:to="'/freets/' + freet.replyTo._id"
@@ -28,15 +29,15 @@
     >
       {{ freet.content }}
     </p>
-    <div v-if="freet.readmore">
+    <div v-if="freet.readmore" class="readmore">
       <button 
         v-if="!this.freetPage"
         @click="read"
+        class="readmore-button"
       >
         Read More
       </button>
       <div v-else>
-        <p>Read more:</p>
         <p> {{ freet.readmore }}</p>
       </div>
     </div>
@@ -171,6 +172,10 @@ export default {
     },
     // Whether or not this is the freet page view
     freetPage: {
+      type: Boolean,
+    },
+    // Whether or not this is a reply on the freet page view
+    isFreetPageReply: {
       type: Boolean,
     }
   },
@@ -448,4 +453,34 @@ footer div button {
 .edit-categories-button {
   font-style: italic;
 }
+
+.readmore {
+  margin-bottom: 1em;
+}
+
+.readmore-button {
+  background-color: var(--background-darker);
+}
+
+.readmore-button:hover {
+  background-color: var(--background-darkest);
+}
+
+.readmore-label {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.freet-page .freet-content {
+  font-size: 1.25em;
+}
+
+.freet-page .author {
+  font-size: 1.5em;
+}
+
+ .freet-page .readmore {
+  border-top: 1px solid var(--borders);
+  padding-top: 1em;
+ }
 </style>
