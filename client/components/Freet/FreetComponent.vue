@@ -114,12 +114,16 @@
     <div v-if="$store.state.username === freet.author && this.canHaveCategories">
       <div v-if="this.mode !== 'editing'">
         <button class="category" @click="startEditing">Edit categories</button>
-        <span 
-          v-for="category in freet.categories"
-          class="category"
-        > 
-          {{ category }} 
-        </span>
+          <span 
+            v-for="category in freet.categories"
+            class="category"
+          > 
+            <router-link
+              v-bind:to="'/categories/' + category"
+            >
+              {{ category }} 
+            </router-link>
+          </span>
       </div>
       <div v-else>
         <textarea

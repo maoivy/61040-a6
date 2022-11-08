@@ -5,7 +5,7 @@ import type {Relevance, PopulatedRelevance} from './model';
 type RelevanceResponse = {
   _id: string;
   category: string;
-  freet: string;
+  freet: any;
   relevanceScore: number;
   relevantVotes: number;
   totalVotes: number;
@@ -24,13 +24,13 @@ const constructRelevanceResponse = (relevance: HydratedDocument<Relevance>): Rel
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  const { content } = relevanceCopy.freetId;
+  const freet = relevanceCopy.freetId;
   delete relevanceCopy.freetId;
   return {
     ...relevanceCopy,
     _id: relevanceCopy._id.toString(),
     category: relevanceCopy.category.toString(),
-    freet: content,
+    freet: freet,
     relevanceScore: relevanceCopy.relevanceScore,
     relevantVotes: relevanceCopy.relevantVotes,
     totalVotes: relevanceCopy.totalVotes,
