@@ -125,18 +125,19 @@
       @close-collect="this.stopCollecting" 
     />
     <div v-if="$store.state.username === freet.author && this.canHaveCategories">
-      <div v-if="this.mode !== 'editing'">
-        <button class="category" @click="startEditing">Edit categories</button>
-          <span 
-            v-for="category in freet.categories"
+      <div v-if="this.mode !== 'editing'" class="categories">
+        <button class="category edit-categories-button" @click="startEditing">Edit categories</button>
+        <router-link
+          v-for="category in freet.categories"
+          :key="freet._id + category"
+          v-bind:to="'/categories/' + category"
+        >
+          <button
             class="category"
           > 
-            <router-link
-              v-bind:to="'/categories/' + category"
-            >
-              {{ category }} 
-            </router-link>
-          </span>
+            {{ category }} 
+          </button>
+        </router-link>
       </div>
       <div v-else>
         <textarea
@@ -421,5 +422,26 @@ footer div button {
 
 .delete-button {
   color: var(--danger);
+}
+
+.categories {
+  margin-top: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  max-height: 5em;
+  overflow: scroll;
+}
+
+.category {
+  background-color: var(--background-darker);
+}
+
+.category:hover {
+  background-color: var(--background-darkest);
+}
+
+.edit-categories-button {
+  font-style: italic;
 }
 </style>
