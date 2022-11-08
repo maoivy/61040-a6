@@ -13,15 +13,6 @@
     >
       {{ button }}
     </button>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
   </form>
 </template>
 
@@ -39,7 +30,7 @@ export default {
     }
   },
   data() {
-    return {value: '', alerts: {}};
+    return {value: ''};
   }
 };
 </script>

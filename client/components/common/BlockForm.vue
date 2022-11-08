@@ -41,15 +41,6 @@
     >
       Cancel
     </button>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
   </form>
 </template>
 
@@ -121,8 +112,9 @@ export default {
           this.callback();
         }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     }
   }

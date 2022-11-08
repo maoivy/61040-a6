@@ -58,7 +58,9 @@ export default {
         } 
         this.$store.commit('updateFreet', res);
       } catch (e) {
-        alert(e);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     async getReplies() {
@@ -78,7 +80,9 @@ export default {
         }
         this.$store.commit('updateReplies', res);
       } catch (e) {
-        alert(e);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     }
   }

@@ -78,8 +78,9 @@ export default {
         this.$store.commit('refreshCollections');
         this.$emit('collection-deleted');
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     startEditing() {
@@ -107,8 +108,9 @@ export default {
         this.$store.commit('refreshCollections');
         this.$emit('collection-edited');
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
       this.editing = false;
     },

@@ -33,7 +33,9 @@ export default {
         // will always want to update stored replies: only matters if on Freet page
         this.$store.commit('refreshFreet', this.refreetOf);
 
-        console.log("Successfully refreeted freet!");
+        this.$store.commit('alert', {
+          message: 'Refreet published.', status: 'success'
+        });
         this.$emit('refreet-success');
       }
     };

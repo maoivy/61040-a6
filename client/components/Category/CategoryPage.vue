@@ -73,7 +73,9 @@ export default {
           }
           this.getRelevances();
         } catch (e) {
-          console.log(e);
+          this.$store.commit('alert', {
+            message: e, status: 'error'
+          });
         }
       }
       
@@ -94,7 +96,9 @@ export default {
           }
           this.getRelevances();
         } catch (e) {
-          console.log(e);
+          this.$store.commit('alert', {
+            message: e, status: 'error'
+          });
         }
       }
     },
@@ -115,7 +119,9 @@ export default {
         }
         this.relevances = res;
       } catch (e) {
-        console.log(e);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
   },

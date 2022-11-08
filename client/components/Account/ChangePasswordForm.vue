@@ -16,9 +16,9 @@ export default {
       ],
       title: 'Change password',
       callback: () => {
-        const message = 'Successfully changed password!';
-        this.$set(this.alerts, message, 'success');
-        setTimeout(() => this.$delete(this.alerts, message), 3000);
+        this.$store.commit('alert', {
+          message: 'Password changed.', status: 'success'
+        });
       }
     };
   }

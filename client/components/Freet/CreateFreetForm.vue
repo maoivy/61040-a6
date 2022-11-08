@@ -19,9 +19,9 @@ export default {
       title: 'Create a freet',
       refreshFreets: true,
       callback: () => {
-        const message = 'Successfully created a freet!';
-        this.$set(this.alerts, message, 'success');
-        setTimeout(() => this.$delete(this.alerts, message), 3000);
+        this.$store.commit('alert', {
+          message: 'Freet published.', status: 'success'
+        });
       }
     };
   }

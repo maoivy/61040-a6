@@ -34,7 +34,9 @@ export default {
         this.$store.commit('refreshFreet', this.replyTo);
         this.$store.commit('refreshReplies', this.replyTo);
 
-        console.log("Successfully replied to freet!");
+        this.$store.commit('alert', {
+          message: 'Reply published.', status: 'success'
+        });
         this.$emit('reply-success');
       }
     };

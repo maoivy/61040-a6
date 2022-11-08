@@ -107,15 +107,6 @@
           Collect
       </button>
     </footer>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
     <RefreetFreetForm 
       v-if="this.mode === 'refreeting'" 
       :refreetOf="freet._id" 
@@ -207,7 +198,9 @@ export default {
           throw new Error(res.error);
         }
         } catch (e) {
-          console.log(e);
+          this.$store.commit('alert', {
+            message: e, status: 'error'
+          });
         }
       }
       this.$router.push(`/freets/${this.freet._id}`);
@@ -236,8 +229,9 @@ export default {
           this.$store.commit('refreshFreets');
         }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     async unlike() {
@@ -263,8 +257,9 @@ export default {
           this.$store.commit('refreshFreets');
         }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     startRefreeting() {
@@ -333,8 +328,9 @@ export default {
           this.$store.commit('refreshFreets');
         }
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
       this.mode = 'none'; 
     },
@@ -356,8 +352,9 @@ export default {
         
         this.$store.commit('refreshFreets');
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
   }

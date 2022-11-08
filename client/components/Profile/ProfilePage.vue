@@ -161,7 +161,10 @@ export default {
             this.canEdit = true;
         }
       } catch (e) {
-            this.notFound = true;
+        this.notFound = true;
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     async getFreets() {
@@ -183,8 +186,9 @@ export default {
         this.originalFreets = res.filter((freet) => !freet.refreetOf);
         this.refreets = res.filter((freet) => freet.refreetOf);
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     async getCollections() {
@@ -209,8 +213,9 @@ export default {
         }
         this.collections = res;
       } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     setView(view) {
@@ -239,7 +244,9 @@ export default {
         this.$store.commit('refreshFreets');
         this.$store.commit('refreshFollowing');
       } catch (e) {
-        console.log(e);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
     async unfollow() {
@@ -261,7 +268,9 @@ export default {
         this.$store.commit('refreshFreets');
         this.$store.commit('refreshFollowing');
       } catch (e) {
-        console.log(e);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
   },

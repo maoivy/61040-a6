@@ -19,6 +19,9 @@ export default {
             callback: () => {
                 this.$emit('new-collection');
                 this.$store.commit('refreshCollections');
+                this.$store.commit('alert', {
+                    message: 'New collection created.', status: 'success'
+                });
             }
         };
     }

@@ -57,7 +57,7 @@ export default {
   methods: {
     async setFilter(filter) {
       /**
-       * Gets the replies for this Freet.
+       * Sets the Feed filter.
        */
       const options = {
         method: 'PATCH', 
@@ -73,7 +73,9 @@ export default {
         }
         this.$store.commit('refreshFreets');
       } catch (e) {
-        console.log(e);
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
       }
     },
   },

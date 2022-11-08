@@ -17,7 +17,7 @@ export default {
       callback: () => {
         this.$router.push({name: 'Home'}); // Goes to Home page after signing out
         this.$store.commit('alert', {
-          message: 'You are now signed out!', status: 'success'
+          message: 'You are now signed out.', status: 'success'
         });
         this.$store.commit('clear');
       }

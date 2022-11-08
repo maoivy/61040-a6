@@ -20,7 +20,7 @@ export default {
       callback: () => {
         this.$router.push({name: 'Home'});
         this.$store.commit('alert', {
-          message: 'You are now signed in!', status: 'success'
+          message: 'You are now signed in.', status: 'success'
         });
         this.$store.commit('refreshUser');
         this.$store.commit('refreshFreets');

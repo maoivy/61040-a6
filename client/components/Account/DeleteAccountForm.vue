@@ -17,7 +17,7 @@ export default {
       callback: () => {
         this.$router.push({name: 'Home'}); // Goes to Home page after deleting account
         this.$store.commit('alert', {
-          message: 'Your account has been deleted!', status: 'success'
+          message: 'Account deleted.', status: 'success'
         });
       }
     };

@@ -86,7 +86,9 @@ export default {
           }
           console.log(res);
         } catch (e) {
-          alert(e);
+          this.$store.commit('alert', {
+            message: e, status: 'error'
+          });
         }
       }
       this.$store.commit('refreshCollections');
