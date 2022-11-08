@@ -12,9 +12,7 @@ const isCollectionExists = async (req: Request, res: Response, next: NextFunctio
   const collection = validFormat ? await CollectionCollection.findOne(req.params.collectionId) : '';
   if (!collection) {
     res.status(404).json({
-      error: {
-        collectionNotFound: `Collection with collection ID ${req.params.collectionId} does not exist.`
-      }
+      error: `Collection with collection ID ${req.params.collectionId} does not exist.`
     });
     return;
   }
@@ -31,9 +29,7 @@ const isCollectionExists = async (req: Request, res: Response, next: NextFunctio
     const freet = validFormat ? await FreetCollection.findOne(req.body.freetId) : '';
     if (!freet) {
       res.status(404).json({
-        error: {
-          freetNotFound: `Freet ID ${req.body.freetId} is invalid and cannot be added/removed.`
-        }
+        error: `Freet ID ${req.body.freetId} is invalid and cannot be added/removed.`
       });
       return;
     }

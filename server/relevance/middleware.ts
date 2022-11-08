@@ -57,9 +57,7 @@ import CollectionCollection from './collection';
   const relevance = await RelevanceCollection.findOneByRelevanceId(relevanceId)
   if (!relevance) {
     res.status(404).json({
-      error: {
-        relevanceNotFound: `Relevance ${relevanceId} not found.`
-      }
+      error: `Relevance ${relevanceId} not found.`
     });
     return;
   }
@@ -75,9 +73,7 @@ import CollectionCollection from './collection';
   const relevance = await RelevanceCollection.findOneByRelevanceId(relevanceId)
   if (!relevance) {
     res.status(404).json({
-      error: {
-        relevanceNotFound: `Relevance ${relevanceId} not found.`
-      }
+      error: `Relevance ${relevanceId} not found.`
     });
     return;
   }

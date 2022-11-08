@@ -13,9 +13,7 @@ const isFreetExistsParams = async (req: Request, res: Response, next: NextFuncti
   const freet = validFormat ? await FreetCollection.findOne(freetId) : '';
   if (!freet) {
     res.status(404).json({
-      error: {
-        freetNotFound: `Freet with freet ID ${freetId} does not exist.`
-      }
+      error: `Freet with freet ID ${freetId} does not exist.`
     });
     return;
   }
@@ -32,9 +30,7 @@ const isFreetExistsParams = async (req: Request, res: Response, next: NextFuncti
   const freet = validFormat ? await FreetCollection.findOne(freetId) : '';
   if (!freet) {
     res.status(404).json({
-      error: {
-        freetNotFound: `Freet with freet ID ${freetId} does not exist.`
-      }
+      error: `Freet with freet ID ${freetId} does not exist.`
     });
     return;
   }
@@ -49,9 +45,7 @@ const isFreetExistsParams = async (req: Request, res: Response, next: NextFuncti
   const { freetId } = req.query as { freetId: string };
   if (!freetId) {
     res.status(400).json({
-      error: {
-        freetNotFound: `Freet ID cannot be empty.`
-      }
+      error: `Freet ID cannot be empty.`
     });
     return;
   }
@@ -60,9 +54,7 @@ const isFreetExistsParams = async (req: Request, res: Response, next: NextFuncti
   const freet = validFormat ? await FreetCollection.findOne(freetId) : '';
   if (!freet) {
     res.status(404).json({
-      error: {
-        freetNotFound: `Freet with freet ID ${freetId} does not exist.`
-      }
+      error: `Freet with freet ID ${freetId} does not exist.`
     });
     return;
   }
@@ -110,9 +102,7 @@ const isValidFreetContent = (req: Request, res: Response, next: NextFunction) =>
   const freet = validFormat ? await FreetCollection.findOne(refreetOf) : '';
   if (!freet) {
     res.status(404).json({
-      error: {
-        freetNotFound: `Freet with freet ID ${refreetOf} does not exist.`
-      }
+      error:  `Freet with freet ID ${refreetOf} does not exist.`
     });
     return;
   }
@@ -135,9 +125,7 @@ const isValidFreetContent = (req: Request, res: Response, next: NextFunction) =>
   const freet = validFormat ? await FreetCollection.findOne(replyTo) : '';
   if (!freet) {
     res.status(404).json({
-      error: {
-        freetNotFound: `Freet with freet ID ${replyTo} does not exist.`
-      }
+      error: `Freet with freet ID ${replyTo} does not exist.`
     });
     return;
   }
