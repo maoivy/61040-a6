@@ -152,7 +152,7 @@ export default {
 .relevance-vote {
   display: flex;
   align-items: center;
-  padding: 0.5em 0em;
+  padding: 0.5em 0em 0em 0em;
   gap: 0.5em;
 }
 </style>
