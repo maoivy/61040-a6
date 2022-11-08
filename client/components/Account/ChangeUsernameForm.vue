@@ -20,6 +20,7 @@ export default {
         this.$store.commit('alert', {
           message: 'Username changed.', status: 'success'
         });
+        this.$store.commit('refreshFreets');
       }
     };
   }

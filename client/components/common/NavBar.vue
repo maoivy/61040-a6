@@ -4,13 +4,7 @@
 
 <template>
   <nav>
-    <div class="left">
-      <img src="../../public/logo.svg">
-      <h1 class="title">
-        Fritter
-      </h1>
-    </div>
-    <div class="right">
+    <div class="links">
       <router-link to="/">
         Home
       </router-link>
@@ -33,47 +27,68 @@
         Login
       </router-link>
     </div>
+    <div class="logo">
+      <img src="../../public/logo.svg">
+      <div v-if="$store.state.username" class="logo-text">
+        <router-link
+          v-bind:to="'/users/' + $store.state.username"
+        >
+          @{{ $store.state.username }}
+        </router-link>
+      </div>
+      <div v-else class="logo-text">
+        <router-link
+          v-bind:to="'/'"
+        >
+          Fritter
+        </router-link>
+      </div>
+    </div>
   </nav>
 </template>
 
 <style scoped>
 nav {
-    height: 100%;
-    width: 25vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+  height: 100%;
+  width: 25%;
+  padding: 5vh 3vw;
+  padding-left: 6vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
 }
 
-.title {
-    font-size: 32px;
-    margin: 0 5px;
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
+  gap: 1em;
+  font-size: 1.5em;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  /* border: 1px solid var(--borders); */
+  gap: 1em;
+  width: 100%;
+}
+
+.logo-text {
+  flex-grow: 2;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
 img {
-    height: 32px;
+  height: 2em;
+  width: 2em;
 }
 
-.left {
-	display: flex;
-	align-items: center;
-}
-
-.right {
-    font-size: 20px;
-    display: grid;
-    gap: 16px;
-    grid-auto-flow: column;
-    align-items: center;
-}
-
-.right a {
-    margin-left: 5px;
-}
-
-.alerts {
-    width: 25%;
-}
 </style>

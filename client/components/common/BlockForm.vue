@@ -112,6 +112,7 @@ export default {
           this.callback();
         }
       } catch (e) {
+      console.log(e);
         this.$store.commit('alert', {
           message: e, status: 'error'
         });

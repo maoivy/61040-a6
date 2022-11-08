@@ -4,9 +4,30 @@
   <main>
     <section v-if="$store.state.username">
       <header>
-        <h2>Welcome @{{ $store.state.username }}</h2>
+        <h2>Feed</h2>
+        <div>
+          <button @click="setFilter('default')">All freets</button>
+          <button @click="setFilter('original')">Freets</button>
+          <button @click="setFilter('refreets')">Refreets</button>
+        </div>
       </header>
       <CreateFreetForm />
+      <section>
+        <section
+          v-if="$store.state.freets.length"
+        >
+          <FreetComponent
+            v-for="freet in $store.state.freets"
+            :key="freet.id"
+            :freet="freet"
+          />
+        </section>
+        <article
+          v-else
+        >
+          <h3>No freets found.</h3>
+        </article>
+      </section>
     </section>
     <section v-else>
       <header>
@@ -19,29 +40,6 @@
           </router-link>
           to create, edit, and delete freets.
         </h3>
-      </article>
-    </section>
-    <section>
-      <header>
-        <div>
-          <button @click="setFilter('default')">All freets</button>
-          <button @click="setFilter('original')">Freets</button>
-          <button @click="setFilter('refreets')">Refreets</button>
-        </div>
-      </header>
-      <section
-        v-if="$store.state.freets.length"
-      >
-        <FreetComponent
-          v-for="freet in $store.state.freets"
-          :key="freet.id"
-          :freet="freet"
-        />
-      </section>
-      <article
-        v-else
-      >
-        <h3>No freets found.</h3>
       </article>
     </section>
   </main>

@@ -46,7 +46,14 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --background: #faf9f5;
+  --background-darker: #e8e7e1;
+  --borders: #555555;
+  --links: #52c2c4;
+}
 
 * {
   box-sizing: border-box;
@@ -54,23 +61,34 @@ export default {
 
 body {
   height: 100vh;
+  width: 100vw;
   flex-direction: column;
   display: flex;
   padding: 0;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
+  background: var(--background);
 }
 
 main {
   padding: 0 5em 5em;
   height: 100vh;
-  width: 75vw;
+  width: 75%;
   overflow: scroll;
 }
 
 button {
   font-family: 'Montserrat', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--links);
+}
+
+a:hover {
+  cursor: pointer;
 }
 
 .wrapper {
