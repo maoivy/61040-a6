@@ -10,23 +10,39 @@
       <header>
         <h2>@{{ $route.params.username }}</h2>
       </header>
-      <button 
-        v-if="!this.canEdit && this.$store.state.following && !this.$store.state.following.includes(this.profile._id)"
-        @click="follow"
-      >
-         Follow
-      </button>
-      <button 
-        v-if="!this.canEdit && this.$store.state.following && this.$store.state.following.includes(this.profile._id)"
-        @click="unfollow"
-      >
-        Unfollow
-      </button>
-      <button v-if="this.canEdit">
-          Edit profile
-      </button>
+      <div class="actions">
+        <button 
+          v-if="!this.canEdit && this.$store.state.following && !this.$store.state.following.includes(this.profile._id)"
+          class="follow-button links"
+          @click="follow"
+        >
+          Follow
+        </button>
+        <button 
+          v-if="!this.canEdit && this.$store.state.following && this.$store.state.following.includes(this.profile._id)"
+          class="unfollow-button danger"
+          @click="unfollow"
+        >
+          Unfollow
+        </button>
+        <button v-if="this.canEdit && !editing" @click="startEditing" class="edit-button">
+            Edit profile
+        </button>
+        <button v-if="this.canEdit && editing" @click="stopEditing" class="cancel-button danger">
+            Cancel
+        </button>
+        <button v-if="this.canEdit && editing" @click="submitEdit" class="save-button links">
+            Save changes
+        </button>
+      </div>
       <div>
-          <p>{{ this.profile.bio }}</p>
+          <p v-if="!editing">{{ this.profile.bio }}</p>
+          <textarea
+            v-else
+            class="content"
+            :value="bio"
+            @input="bio = $event.target.value"
+          />
           <p>Joined {{ this.profile.dateJoined }} </p>
           <p>{{ this.profile.following && this.profile.following.length }} following</p>
           <p>{{ this.profile.followedBy && this.profile.followedBy.length }} followers</p>
@@ -127,6 +143,8 @@ export default {
       profile: {},
       userId: '',
       canEdit: false,
+      editing: false,
+      bio: '',
       view: 'allFreets',
       allFreets: [],
       originalFreets: [],
@@ -140,6 +158,39 @@ export default {
       this.getCollections();
   },
   methods: {
+    startEditing() {
+      this.editing = true;
+      this.bio = this.profile.bio;
+    },
+    stopEditing() {
+      this.editing = false;
+      this.bio = this.profile.bio;
+    },
+    async submitEdit() {
+      /**
+       * Saves the user's profile edits.
+       */
+      const options = {
+        method: 'PATCH', 
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ bio: this.bio })
+      };
+
+      try {
+        const r = await fetch(`/api/users?username=${this.$route.params.username}`, options);
+        const res = await r.json();
+        if (!r.ok) {
+          throw new Error(res.error);
+        }
+        this.bio = res.user.bio;
+        this.profile.bio = res.user.bio;
+        this.editing = false;
+      } catch (e) {
+        this.$store.commit('alert', {
+          message: e, status: 'error'
+        });
+      }
+    },
     async getProfile() {
       /**
        * Gets the profile for the user whose profile page this is.
@@ -157,8 +208,9 @@ export default {
         }
         this.profile = res.user;
         this.userId = res._id;
-        if (this.profile.username === this.$store.state.username) {
-            this.canEdit = true;
+        if (res.user.username === this.$store.state.username) {
+          this.canEdit = true;
+          this.bio = res.user.bio;
         }
       } catch (e) {
         this.notFound = true;
@@ -276,3 +328,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.edit-button {
+  background-color: var(--background-darker);
+}
+</style>

@@ -91,10 +91,21 @@ button {
   font-family: 'Montserrat', sans-serif;
   border: none;
   background: none;
+  padding: 0.5em 1.25em;
 }
 
 button:hover {
   cursor: pointer;
+}
+
+.action {
+  background-color: var(--links);
+  color: var(--links-text);
+}
+
+.danger {
+  background-color: var(--danger);
+  color: var(--danger-text);
 }
 
 a {
