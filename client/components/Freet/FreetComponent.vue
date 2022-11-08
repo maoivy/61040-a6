@@ -81,11 +81,13 @@
         >
           Refreet
         </button>
-        <span
+        <button
           v-else
+          disabled
+          class="disabled"
         >
           Refreeted
-        </span>
+        </button>
         
         <span> {{ freet.refreets }} </span>
       </div>
@@ -95,12 +97,16 @@
         </button>
         <span> {{ freet.replies }} </span>
       </div>
-      <button @click="startCollecting">
-          Collect
-      </button>
-      <button v-if="$store.state.username === freet.author" @click="deleteFreet">
-          🗑️ Delete
-      </button>
+      <div>
+        <button @click="startCollecting">
+            Collect
+        </button>
+      </div>
+      <div v-if="$store.state.username === freet.author">
+        <button @click="deleteFreet" class="delete-button">
+            Delete
+        </button>
+      </div>
     </footer>
     <RefreetFreetForm 
       v-if="this.mode === 'refreeting'" 
@@ -382,6 +388,23 @@ export default {
 
 footer {
   display: flex;
+  align-items: center;
   gap: 2em;
+  margin-top: 0.5em;
+}
+
+footer div {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+footer div button {
+  font-weight: bold;
+  padding: 0.5em 0em;
+}
+
+.delete-button {
+  color: var(--danger);
 }
 </style>

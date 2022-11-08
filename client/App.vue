@@ -145,6 +145,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.disabled:hover {
+  cursor: auto;
+}
+
 h2 {
   font-size: 1.5em;
 }
