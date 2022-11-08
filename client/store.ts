@@ -9,7 +9,6 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
-    filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
     following: [],
@@ -28,6 +27,16 @@ const store = new Vuex.Store({
       setTimeout(() => {
         Vue.delete(state.alerts, payload.message);
       }, 3000);
+    },
+    clear(state) {
+      state.freets = [];
+      state.username = null;
+      state.following = [],
+      state.likes = [],
+      state.collections = [];
+      state.freet = {};
+      state.replies = []; 
+      state.alerts = {};
     },
     setUsername(state, username) {
       /**
