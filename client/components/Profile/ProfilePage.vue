@@ -34,10 +34,10 @@
     </section>
     <section>
         <header>
-            <button @click="setView('allFreets')">All freets</button>
-            <button @click="setView('originalFreets')">Freets</button>
-            <button @click="setView('refreets')">Refreets</button>
-            <button @click="setView('collections')">Collections</button>
+            <button @click="setView('allFreets')">All freets ({{this.allFreets.length}})</button>
+            <button @click="setView('originalFreets')">Freets ({{this.originalFreets.length}})</button>
+            <button @click="setView('refreets')">Refreets ({{this.refreets.length}})</button>
+            <button @click="setView('collections')">Collections ({{this.collections.length}})</button>
         </header>
         <div v-if="this.view === 'allFreets'">
             <div v-if="this.allFreets.length">
