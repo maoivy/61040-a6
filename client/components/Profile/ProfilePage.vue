@@ -352,6 +352,10 @@ export default {
   background-color: var(--background-darker);
 }
 
+header {
+  padding-bottom: 0;
+}
+
 header h2 {
   margin-bottom: 0.5em;
 }
