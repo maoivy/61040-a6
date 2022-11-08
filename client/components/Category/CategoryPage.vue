@@ -7,26 +7,32 @@
       <header>
         <h2>Category: {{ $route.params.category }}</h2>
       </header>
-      <CreateFreetFormCategory :category="$route.params.category" />
-      <div v-if="this.relevances.length">
-        <div v-for="relevance in this.relevances" :key="relevance._id">
-          <FreetComponent
-            :freet="relevance.freet"
-          />
-          <div>
-            <p>Relevant?</p>
-            <button 
-              :class="{ voted: relevance.relevantVoters.includes($store.state.userId) }"
-              @click="toggleVote(relevance, true)"
-            >
-              Yes
-            </button>
-            <button 
-              :class="{ voted: relevance.irrelevantVoters.includes($store.state.userId) }"
-              @click="toggleVote(relevance, false)"
-            >
-              No
-            </button>
+      <div class="content-wrapper">
+        <CreateFreetFormCategory :category="$route.params.category" />
+        <div v-if="this.relevances.length" class="content-wrapper">
+          <div v-for="relevance in this.relevances" :key="relevance._id">
+            <FreetComponent
+              :freet="relevance.freet"
+            />
+            <div class="center">
+              <div class="relevance-vote">
+                <p>Is this Freet relevant to <span class="bold">{{ $route.params.category }}</span>?</p>
+                <button 
+                  class="vote-button"
+                  :class="{ action: relevance.relevantVoters.includes($store.state.userId) }"
+                  @click="toggleVote(relevance, true)"
+                >
+                  Yes
+                </button>
+                <button 
+                  class="vote-button"
+                  :class="{ danger: relevance.irrelevantVoters.includes($store.state.userId) }"
+                  @click="toggleVote(relevance, false)"
+                >
+                  No
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -59,7 +65,6 @@ export default {
       const alreadyVotedIrrelevant = relevance.irrelevantVoters.includes(this.$store.state.userId);
       // if a vote exists, delete it
       if (alreadyVotedRelevant || alreadyVotedIrrelevant) {
-        console.log("deleting")
         const options = {
           method: 'DELETE', 
           headers: {'Content-Type': 'application/json'},
@@ -127,3 +132,27 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.vote-button {
+  background-color: var(--background-darker);
+  color: var(--text);
+}
+
+.action {
+  background-color: var(--links);
+  color: var(--links-text);
+}
+
+.danger {
+  background-color: var(--danger);
+  color: var(--danger-text);
+}
+
+.relevance-vote {
+  display: flex;
+  align-items: center;
+  padding: 0.5em 0em;
+  gap: 0.5em;
+}
+</style>

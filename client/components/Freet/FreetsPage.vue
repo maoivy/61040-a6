@@ -2,10 +2,10 @@
 
 <template>
   <main>
-    <section v-if="$store.state.username">
+    <section v-if="$store.state.username" class="content-wrapper">
       <header>
         <h2>Feed</h2>
-        <div>
+        <div class="filter-buttons">
           <button 
             @click="setFilter('default')"
             :class="{ active: $store.state.filter === 'default' }"
@@ -30,6 +30,7 @@
       <section>
         <section
           v-if="$store.state.freets.length"
+          class="content-wrapper"
         >
           <FreetComponent
             v-for="freet in $store.state.freets"
@@ -106,13 +107,17 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding-bottom: 1em;
+  padding-bottom: 0;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5em;
 }
 
 header button {
   font-weight: bold;
-  font-size: 1.2em;
-  padding: 0.15em 0.75em;
+  font-size: 1em;
 }
 
 header button:hover {

@@ -94,6 +94,7 @@ button {
   border: none;
   background: none;
   padding: 0.5em 1.25em;
+  border-radius: 0.25em;
 }
 
 button:hover {
@@ -110,6 +111,30 @@ button:hover {
   color: var(--danger-text);
 }
 
+.bold {
+  font-weight: bold;
+}
+
+.center {
+  display: flex;
+  justify-content: space-around;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+header, h2, h3, p {
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  padding-bottom: 1em;
+}
+
 a {
   text-decoration: none;
   color: var(--links);
@@ -118,11 +143,6 @@ a {
 a:hover {
   cursor: pointer;
   text-decoration: underline;
-}
-
-header, h2, h3, p {
-  padding: 0;
-  margin: 0;
 }
 
 h2 {

@@ -49,4 +49,8 @@ section {
   flex-direction: column;
   gap: 1em;
 }
+
+header { 
+  padding-bottom: 0;
+}
 </style>

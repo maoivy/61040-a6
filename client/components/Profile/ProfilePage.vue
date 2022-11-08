@@ -356,7 +356,7 @@ header h2 {
   margin-bottom: 0.5em;
 }
 
-.profile, .details, .content-wrapper {
+.profile, .details {
   display: flex;
   flex-direction: column;
   gap: 1em;
