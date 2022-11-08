@@ -95,6 +95,9 @@ export default {
         }
       }
       this.$store.commit('refreshCollections');
+      this.$store.commit('alert', {
+        message: 'Freet successfully modified in collections.', status: 'success'
+      });
       this.close();
     },
   }
