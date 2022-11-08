@@ -24,8 +24,6 @@ export default {
         });
         this.$store.commit('refreshUser');
         this.$store.commit('refreshFreets');
-        this.$store.commit('refreshUser');
-        this.$store.commit('refreshUser');
         this.$store.commit('refreshCollections');
       }
     };

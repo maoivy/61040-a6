@@ -30,10 +30,10 @@ export default {
       const user = res.user;
       this.$store.commit('setUsername', user ? user.username : null);
       this.$store.commit('setUserId', user ? user._id : null);
-      this.$store.commit('setFilter', user ? user.filter : null);
-      this.$store.commit('setLikes', user ? user.likes : null);
-      this.$store.commit('setRefreets', user ? user.refreets : null);
-      this.$store.commit('setFollowing', user ? user.following : null);
+      this.$store.commit('setFilter', user ? user.filter : 'default');
+      this.$store.commit('setLikes', user ? user.likes : []);
+      this.$store.commit('setRefreets', user ? user.refreets : []);
+      this.$store.commit('setFollowing', user ? user.following : []);
 
       if (user) {
         this.$store.commit('refreshFreets');

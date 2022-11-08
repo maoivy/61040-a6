@@ -125,7 +125,7 @@
       :freetId="freet._id" 
       @close-collect="this.stopCollecting" 
     />
-    <div v-if="$store.state.username === freet.author && this.canHaveCategories">
+    <div v-if="$store.state.username === freet.author && (!freet.replyTo && !freet.refreetOf)">
       <div v-if="this.mode !== 'editing'" class="categories">
         <button class="category edit-categories-button" @click="startEditing">Edit categories</button>
         <router-link
@@ -152,6 +152,19 @@
           Save changes
         </button>
       </div>
+    </div>
+    <div v-else class="categories">
+      <router-link
+        v-for="category in freet.categories"
+        :key="freet._id + category"
+        v-bind:to="'/categories/' + category"
+      >
+        <button
+          class="category"
+        > 
+          {{ category }} 
+        </button>
+      </router-link>
     </div>
   </article>
 </template>
@@ -182,7 +195,6 @@ export default {
   data() {
     return {
       mode: 'none', // Can be none, refreeting, replying, collecting, editing categories
-      canHaveCategories: !this.freet.replyTo && !this.freet.refreetOf,
       categories: this.freet.categories.join(', '), // Categories for the freet
       alerts: {},
     };
