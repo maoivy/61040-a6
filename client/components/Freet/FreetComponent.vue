@@ -15,9 +15,13 @@
           <p>{{ freet.replyTo.content }}</p>
         </router-link>
       </div>
-      <h3 class="author">
-        @{{ freet.author }}
-      </h3>
+      <router-link
+        v-bind:to="'/users/' + freet.author"
+      >
+        <h3 class="author">
+          @{{ freet.author }}
+        </h3>
+      </router-link>
       <div
         v-if="$store.state.username === freet.author"
         class="actions"
