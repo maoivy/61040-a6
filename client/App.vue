@@ -49,8 +49,10 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
+  --text: #000000;
   --background: #ffffff;
   --background-darker: #efefef;
+  --background-darkest: #d9d9d9;
   --borders: #555555;
   --links: #52c2c4;
 }
@@ -67,6 +69,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
+  color: var(--text);
   font-size: 14px;
   background: var(--background);
 }
@@ -80,6 +83,12 @@ main {
 
 button {
   font-family: 'Montserrat', sans-serif;
+  border: none;
+  background: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 a {
@@ -92,8 +101,8 @@ a:hover {
 }
 
 header, h2, h3 {
-  padding-top: 0;
-  margin-top: 0;
+  padding: 0;
+  margin: 0;
 }
 
 h2 {

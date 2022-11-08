@@ -56,7 +56,7 @@ export default {
         if (!r.ok) {
           throw new Error(res.error);
         } 
-        this.$store.commit('updateFreet', res);
+        this.$store.commit('setFreet', res);
       } catch (e) {
         this.$store.commit('alert', {
           message: e, status: 'error'
@@ -78,7 +78,7 @@ export default {
         if (!r.ok) {
           throw new Error(res.error);
         }
-        this.$store.commit('updateReplies', res);
+        this.$store.commit('setReplies', res);
       } catch (e) {
         this.$store.commit('alert', {
           message: e, status: 'error'

@@ -70,6 +70,7 @@ export default {
           throw new Error(res.error);
         }
         this.$store.commit('refreshFreets');
+        this.$store.commit('setFilter', filter);
       } catch (e) {
         this.$store.commit('alert', {
           message: e, status: 'error'
@@ -86,19 +87,34 @@ section {
   flex-direction: column;
 }
 
-header, header > * {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 1em;
+}
+
+header button {
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 0.15em 0.75em;
+}
+
+header button:hover {
+  background-color: var(--background-darker);
+}
+
+header .active {
+  background-color: var(--background-darkest);
 }
 
 button {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
-section .scrollbox {
+/* section .scrollbox {
   flex: 1 0 50vh;
   padding: 3%;
   overflow-y: scroll;
-}
+} */
 </style>

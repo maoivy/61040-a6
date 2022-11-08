@@ -12,9 +12,10 @@ const store = new Vuex.Store({
     freets: [], // All freets created in the app
     userId: null, // User ID of the logged in user
     username: null, // Username of the logged in user
-    following: [],
-    likes: [],
-    collections: [],
+    filter: '', // Filter of the logged in user
+    following: [], // Following of the logged in user
+    likes: [], // Likes of the logged in user
+    collections: [], // Collections of the logged in user
     freet: {}, // Freet most recently viewed
     replies: [], // Replies of Freet most recently viewed 
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
@@ -33,8 +34,9 @@ const store = new Vuex.Store({
       state.freets = [];
       state.userId = null;
       state.username = null;
-      state.following = [],
-      state.likes = [],
+      state.filter = '';
+      state.following = [];
+      state.likes = [];
       state.collections = [];
       state.freet = {};
       state.replies = []; 
@@ -68,21 +70,28 @@ const store = new Vuex.Store({
        */
       state.following = following;
     },
-    updateFreets(state, freets) {
+    setFilter(state, filter) {
+      /**
+       * Update the stored filter to the provided filter.
+       * @param freets - Freets to store
+       */
+      state.filter = filter;
+    },
+    setFreets(state, freets) {
       /**
        * Update the stored freets to the provided freets.
        * @param freets - Freets to store
        */
       state.freets = freets;
     },
-    updateFreet(state, freet) {
+    setFreet(state, freet) {
       /**
        * Update the stored freet to the provided freet.
        * @param freet - Freet to store
        */
       state.freet = freet;
     },
-    updateReplies(state, replies) {
+    setReplies(state, replies) {
       /**
        * Update the stored replies to the provided replies.
        * @param replies - Replies to store
@@ -115,28 +124,15 @@ const store = new Vuex.Store({
     },
     async refreshUser(state) {
       /**
-       * Request the server for the current user's username and ID.
+       * Request the server for the current user's data.
        */
       const url = '/api/users/session';
       const res = await fetch(url).then(async r => r.json());
       state.username = res.user.username;
       state.userId = res.user.userId;
-    },
-    async refreshLikes(state) {
-      /**
-       * Request the server for the current user's likes.
-       */
-      const url = '/api/users/session';
-      const res = await fetch(url).then(async r => r.json());
-      state.likes = res.user.likes;
-    },
-    async refreshFollowing(state) {
-      /**
-       * Request the server for the current user's following.
-       */
-      const url = '/api/users/session';
-      const res = await fetch(url).then(async r => r.json());
       state.following = res.user.following;
+      state.likes = res.user.likes;
+      state.filter = res.user.filter;
     },
     async refreshCollections(state) {
       /**

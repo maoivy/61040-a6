@@ -222,7 +222,7 @@ export default {
           throw new Error(res.error);
         }
 
-        this.$store.commit('refreshLikes');
+        this.$store.commit('refreshUser');
         if (this.freetPage) {
           this.$store.commit('refreshFreet', this.freet._id);
         } else {
@@ -250,7 +250,7 @@ export default {
           throw new Error(res.error);
         }
 
-        this.$store.commit('refreshLikes');
+        this.$store.commit('refreshUser');
         if (this.freetPage) {
           this.$store.commit('refreshFreet', this.freet._id);
         } else {

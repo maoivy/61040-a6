@@ -74,7 +74,8 @@ nav {
 }
 
 .links .active {
-  background-color: var(--background-darker);
+  background-color: var(--background-darkest);
+  color: var(--text);
 }
 
 .logo {

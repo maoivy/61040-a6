@@ -242,7 +242,7 @@ export default {
         }
 
         this.$store.commit('refreshFreets');
-        this.$store.commit('refreshFollowing');
+        this.$store.commit('refreshUser');
       } catch (e) {
         this.$store.commit('alert', {
           message: e, status: 'error'
@@ -266,7 +266,7 @@ export default {
         }
 
         this.$store.commit('refreshFreets');
-        this.$store.commit('refreshFollowing');
+        this.$store.commit('refreshUser');
       } catch (e) {
         this.$store.commit('alert', {
           message: e, status: 'error'
