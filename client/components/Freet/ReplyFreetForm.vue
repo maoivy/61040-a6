@@ -20,8 +20,8 @@ export default {
       hasBody: true,
       addToBody: { 'replyTo': this.replyTo },
       fields: [
-        {id: 'content', label: 'Content', value: ''},
-        {id: 'readmore', label: 'Read More', value: ''},
+        {id: 'content', label: 'Content', value: '', type: 'textarea'},
+        {id: 'readmore', label: 'Read More', value: '', type: 'textarea'},
       ],
       title: 'Reply to this freet',
       refreshFreets: true,

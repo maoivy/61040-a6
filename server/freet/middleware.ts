@@ -78,7 +78,7 @@ const isFreetExistsParams = async (req: Request, res: Response, next: NextFuncti
  */
 const isValidFreetContent = (req: Request, res: Response, next: NextFunction) => {
   const {content} = req.body as {content: string};
-  if (!content.trim() && !req.body.refreetOf) {
+  if ((!content || !content.trim()) && !req.body.refreetOf) {
     res.status(400).json({
       error: 'Freet content must be at least one character long.'
     });
@@ -229,9 +229,7 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
   }
 
   const freet = await FreetCollection.findOne(freetId);
-  console.log(freet);
   if (freet.readmore) {
-    console.log("here");
     // has read more, check for a read record
     const read = await ReadCollection.findOneByFreetAndUser(freetId, req.session.userId);
     if (!read) {

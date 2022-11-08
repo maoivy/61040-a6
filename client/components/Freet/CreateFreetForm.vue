@@ -12,8 +12,8 @@ export default {
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'content', label: 'Content', value: ''},
-        {id: 'readmore', label: 'Read More', value: ''},
+        {id: 'content', label: 'Content', value: '', type: 'textarea'},
+        {id: 'readmore', label: 'Read More', value: '', type: 'textarea'},
         {id: 'categories', label: 'Categories', value: ''}
       ],
       title: 'Create a freet',

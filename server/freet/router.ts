@@ -114,10 +114,11 @@ router.post(
     freetValidator.canReplyFreet,
   ],
   async (req: Request, res: Response) => {
-    console.log(req.body);
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const categories = util.parseCategories(req.body.categories);
-    const { content, readmore } = req.body;
+    // if these got past the validator and are still blank/undefined, then they are allowed to be
+    const content = req.body.content ? req.body.content : '';
+    const readmore = req.body.readmore ? req.body.readmore: '';
     // if refreetOf/replyTo is not defined, pass in undefined 
     const refreetOf = (req.body.refreetOf && req.body.refreetOf.trim()) ? req.body.refreetOf : undefined;
     const replyTo = (req.body.replyTo && req.body.replyTo.trim()) ? req.body.replyTo : undefined;

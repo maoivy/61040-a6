@@ -55,7 +55,6 @@ const FreetSchema = new Schema<Freet>({
   // The content of the freet
   content: {
     type: String,
-    required: true,
   },
   // The readmore of the freet
   readmore: {
