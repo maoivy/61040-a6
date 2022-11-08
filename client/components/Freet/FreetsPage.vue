@@ -45,7 +45,7 @@
         </article>
       </section>
     </section>
-    <section v-else>
+    <section v-else class="logged-out">
       <header>
         <h2>Welcome to Fritter!</h2>
       </header>
@@ -126,6 +126,10 @@ header button:hover {
 
 header .active {
   background-color: var(--background-darkest);
+}
+
+.logged-out header {
+  margin-bottom: 1.25em;
 }
 
 /* section .scrollbox {

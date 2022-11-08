@@ -146,11 +146,20 @@
           :value="categories"
           @input="categories = $event.target.value"
         />
-        <button
-          @click="submitEdit"
-        >
-          Save changes
-        </button>
+        <div class="category-controls">
+          <button
+            @click="stopEditing"
+            class="danger"
+          >
+            Cancel
+          </button>
+          <button
+            @click="submitEdit"
+            class="action"
+          >
+            Save changes
+          </button>
+        </div>
       </div>
     </div>
     <div v-else class="categories">
@@ -494,5 +503,12 @@ footer div button {
  .freet-page .readmore {
   border-top: 1px solid var(--borders);
   padding-top: 1em;
+ }
+
+ .category-controls {
+  margin-top: 0.75em;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
  }
 </style>

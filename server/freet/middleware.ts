@@ -296,7 +296,7 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
   for (const category of categories) {
     if (category.length > 24) {
       res.status(413).json({
-        error: 'Category name ' + category + ' exceed the 24-character limit.'
+        error: 'Category name ' + category + ' exceeds the 24-character limit.'
       });
       return;
     }
