@@ -62,14 +62,12 @@
         <button
           v-if="$store.state.likes && !$store.state.likes.includes(freet._id)"
           @click="like"
-          class="count-button"
         >
           Like
         </button>
         <button
           v-if="$store.state.likes && $store.state.likes.includes(freet._id)"
           @click="unlike"
-          class="count-button"
         >
           Unlike
         </button>
@@ -80,14 +78,13 @@
         <button
           v-if="$store.state.refreets && !$store.state.refreets.includes(freet._id)"
           @click="startRefreeting"
-          class="count-button"
         >
           Refreet
         </button>
         <button
           v-else
           disabled
-          class="disabled count-button"
+          class="disabled"
         >
           Refreeted
         </button>
@@ -95,7 +92,7 @@
         <span> {{ freet.refreets }} </span>
       </div>
       <div>
-        <button @click="startReplying" class="count-button">
+        <button @click="startReplying">
           Reply
         </button>
         <span> {{ freet.replies }} </span>
@@ -130,17 +127,13 @@
     />
     <div v-if="$store.state.username === freet.author && (!freet.replyTo && !freet.refreetOf)">
       <div v-if="this.mode !== 'editing'" class="categories">
-        <button class="category edit-categories-button" @click="startEditing">Edit categories</button>
+        <button class="edit-categories-button" @click="startEditing">Edit categories</button>
         <router-link
           v-for="category in freet.categories"
           :key="freet._id + category"
           v-bind:to="'/categories/' + category"
         >
-          <button
-            class="category"
-          > 
-            {{ category }} 
-          </button>
+          <p class="category">{{ category }}</p>
         </router-link>
       </div>
       <div v-else>
@@ -171,11 +164,7 @@
         :key="freet._id + category"
         v-bind:to="'/categories/' + category"
       >
-        <button
-          class="category"
-        > 
-          {{ category }} 
-        </button>
+        {{ category }}
       </router-link>
     </div>
   </article>
@@ -439,7 +428,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 2em;
-  margin-top: 0.5em;
+  margin-top: 1em;
   margin-bottom: 0.5em;
 }
 
@@ -451,32 +440,35 @@ footer div {
 
 footer div button {
   font-weight: bold;
+  background-color: var(--background-darker);
 }
 
-footer div .count-button {
-  padding-left: 0em;
-  padding-right: 0em;
+footer div button:hover {
+  font-weight: bold;
+  background-color: var(--background-darkest);
 }
 
 .categories {
   margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5em;
+  gap: 1em;
   max-height: 5em;
   overflow: scroll;
-}
-
-.category {
-  background-color: var(--background-darker);
-}
-
-.category:hover {
-  background-color: var(--background-darkest);
+  align-items: center;
 }
 
 .edit-categories-button {
   font-style: italic;
+  background-color: var(--background-darker);
+}
+
+.edit-categories-button:hover {
+  background-color: var(--background-darkest);
+}
+
+.category {
+  text-decoration: underline;
 }
 
 .readmore {

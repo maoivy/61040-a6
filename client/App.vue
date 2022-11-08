@@ -107,14 +107,14 @@ button:hover {
 }
 
 .danger {
-  background-color: var(--background);
-  border: 1px solid var(--danger);
-  color: var(--danger);
+  background-color: var(--background) !important;
+  border: 1px solid var(--danger) !important;
+  color: var(--danger) !important;
 }
 
 .danger:hover {
-  background-color: var(--danger);
-  color: var(--danger-text);
+  background-color: var(--danger) !important;
+  color: var(--danger-text) !important;
 }
 
 .bold {
@@ -142,7 +142,7 @@ header {
 }
 
 a {
-  text-decoration: none;
+  /* text-decoration: none; */
   color: var(--links);
 }
 
