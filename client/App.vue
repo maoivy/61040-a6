@@ -76,8 +76,9 @@ body {
 
 main {
   padding: 5vh 3vw;
+  padding-right: 15vw;
   height: 100vh;
-  width: 75%;
+  width: 67%;
   overflow: scroll;
 }
 

@@ -44,9 +44,9 @@
 <style scoped>
 nav {
   height: 100%;
-  width: 25%;
+  width: 33%;
   padding: 5vh 3vw;
-  padding-left: 6vw;
+  padding-left: 15vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
