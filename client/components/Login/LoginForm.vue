@@ -22,6 +22,11 @@ export default {
         this.$store.commit('alert', {
           message: 'You are now signed in!', status: 'success'
         });
+        this.$store.commit('refreshUsername');
+        this.$store.commit('refreshFreets');
+        this.$store.commit('refreshFollowing');
+        this.$store.commit('refreshLikes');
+        this.$store.commit('refreshCollections');
       }
     };
   }
