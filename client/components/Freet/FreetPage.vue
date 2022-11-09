@@ -2,15 +2,13 @@
 
 <template>
   <main>
-    <section>
+    <article>
       <header>
         <h2>
           Freet 
         </h2>
       </header>
-      <section>
-        <FreetComponent :freet="this.$store.state.freet" :freetPage="true" />
-      </section>
+      <FreetComponent :freet="this.$store.state.freet" :freetPage="true" />
       <section
         v-if="this.$store.state.replies.length"
         class="replies"
@@ -23,7 +21,7 @@
           :isFreetPageReply="true"
         />
       </section>
-    </section>
+    </article>
   </main>
 </template>
 

@@ -17,7 +17,7 @@
           <router-link
             v-bind:to="'/freets/' + freet.replyTo._id"
           >
-            @{{ freet.replyTo.author }}'s Freet:
+            <p>@{{ freet.replyTo.author }}'s Freet:</p>
           </router-link>
           &nbsp {{ freet.replyTo.content }}
         </div>
@@ -26,7 +26,7 @@
           <router-link
             v-bind:to="'/users/' + freet.author"
           >
-            @{{ freet.author }}
+            <p>@{{ freet.author }}</p>
           </router-link>
         </div>
     </header>
@@ -44,7 +44,7 @@
         Read More
       </button>
       <div v-else>
-        <p> {{ freet.readmore }}</p>
+        <p>{{ freet.readmore }}</p>
       </div>
     </div>
     <div v-if="freet.refreetOf !== undefined">
@@ -137,7 +137,7 @@
       :freetId="freet._id" 
       @close-collect="this.stopCollecting" 
     />
-    <div v-if="$store.state.username === freet.author && (!freet.replyTo && !freet.refreetOf)">
+    <section v-if="$store.state.username === freet.author && (!freet.replyTo && !freet.refreetOf)">
       <div v-if="this.mode !== 'editing'" class="categories">
         <button class="edit-categories-button" @click="startEditing">Edit categories</button>
         <router-link
@@ -169,8 +169,8 @@
           </button>
         </div>
       </div>
-    </div>
-    <div v-else class="categories">
+    </section>
+    <section v-else class="categories">
       <router-link
         v-for="category in freet.categories"
         :key="freet._id + category"
@@ -178,7 +178,7 @@
       >
         {{ category }}
       </router-link>
-    </div>
+    </section>
   </article>
 </template>
 
