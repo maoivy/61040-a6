@@ -7,22 +7,28 @@
     :class="{ 'freet-page': this.freetPage }"
   >
     <header>
-      <div v-if="freet.replyTo && !this.isFreetPageReply" class="reply-details">
-        Replying to &nbsp
-        <router-link
-          v-bind:to="'/freets/' + freet.replyTo._id"
-        >
-          @{{ freet.replyTo.author }}'s Freet:
-        </router-link>
-        &nbsp {{ freet.replyTo.content }}
+      <div v-if="freet.replyTo !== undefined">
+        <!-- assume that null means the freet has since been deleted -->
+        <div v-if="freet.replyTo === null && !this.isFreetPageReply" class="reply-details">
+          <p>Replying to a deleted Freet:</p>
+        </div>
+        <div v-if="freet.replyTo && !this.isFreetPageReply" class="reply-details">
+          Replying to &nbsp
+          <router-link
+            v-bind:to="'/freets/' + freet.replyTo._id"
+          >
+            @{{ freet.replyTo.author }}'s Freet:
+          </router-link>
+          &nbsp {{ freet.replyTo.content }}
+        </div>
       </div>
       <div class="author">
-        <router-link
-          v-bind:to="'/users/' + freet.author"
-        >
-          @{{ freet.author }}
-        </router-link>
-      </div>
+          <router-link
+            v-bind:to="'/users/' + freet.author"
+          >
+            @{{ freet.author }}
+          </router-link>
+        </div>
     </header>
     <p
       class="freet-content"
@@ -41,15 +47,21 @@
         <p> {{ freet.readmore }}</p>
       </div>
     </div>
-    <router-link
-      v-if="freet.refreetOf"
-      v-bind:to="'/freets/' + freet.refreetOf._id"
-    >
-      <div class="refreet-details">
-        <p class="refreeted-author">@{{ freet.refreetOf.author }}</p>
-        <p class="refreeted-content">{{ freet.refreetOf.content }}</p>
+    <div v-if="freet.refreetOf !== undefined">
+      <!-- assume that null means the freet has since been deleted -->
+      <div v-if="freet.refreetOf === null" class="refreet-details">
+        <p>This Freet has been deleted.</p>
       </div>
-    </router-link>
+      <router-link
+        v-if="freet.refreetOf"
+        v-bind:to="'/freets/' + freet.refreetOf._id"
+      >
+        <div class="refreet-details">
+          <p class="refreeted-author">@{{ freet.refreetOf.author }}</p>
+          <p class="refreeted-content">{{ freet.refreetOf.content }}</p>
+        </div>
+      </router-link>
+    </div>
     <router-link
       v-bind:to="'/freets/' + freet._id"
     >
