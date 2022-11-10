@@ -14,6 +14,7 @@ import {freetRouter} from '../server/freet/router';
 import {collectionRouter} from '../server/collection/router';
 import {relevanceRouter} from '../server/relevance/router';
 import {readRouter} from '../server/read/router';
+import MongoStore from 'connect-mongo';
 
 // Load environmental variables
 dotenv.config({});
@@ -24,14 +25,15 @@ if (!mongoConnectionUrl) {
   throw new Error('Please add the MongoDB connection SRV as \'MONGO_SRV\'');
 }
 
-mongoose
+const client = mongoose
   .connect(mongoConnectionUrl)
   .then(m => {
     console.log('Connected to MongoDB');
-    const db = m.connection;
+    return m.connection.getClient();
   })
   .catch(err => {
     console.error(`Error connecting to MongoDB: ${err.message as string}`);
+    throw new Error(err.message);
   });
 
 mongoose.connection.on('error', err => {
@@ -65,8 +67,15 @@ app.use(express.urlencoded({extended: false}));
 app.use(session({
   secret: '61040',
   resave: true,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: MongoStore.create({
+    clientPromise: client,
+    dbName: 'sessions',
+    autoRemove: 'interval',
+    autoRemoveInterval: 10 // Minutes
+  })
 }));
+
 
 // This makes sure that if a user is logged in, they still exist in the database
 app.use(userValidator.isCurrentSessionUserExists);
